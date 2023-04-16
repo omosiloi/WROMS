@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.scau.mis.system.mapper.RoleMapper">
+
+    <resultMap id="RoleResultMap" type="Role">
+        <id property="roleId" column="role_id" jdbcType="BIGINT"/>
+        <result property="roleName" column="role_name" jdbcType="VARCHAR"/>
+        <result property="roleKey" column="role_key" jdbcType="VARCHAR"/>
+        <result property="roleSort" column="role_sort" jdbcType="INTEGER"/>
+        <result property="status" column="status" jdbcType="CHAR"/>
+        <result property="delFlag" column="del_flag" jdbcType="CHAR"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="selectRoleJoinVo">
+        SELECT r.role_id,r.role_name,r.role_key,r.role_sort,r.status,r.del_flag,r.create_by,r.create_time,r.update_by,r.update_time
+        FROM sys_role r
+                 LEFT JOIN sys_user_role ur ON ur.role_id = r.role_id
+                 LEFT JOIN sys_user u ON u.user_id = ur.user_id
+    </sql>
+
+    <select id="selectRoleById" parameterType="java.lang.Long" resultMap="RoleResultMap">
+        SELECT r.role_id,r.role_name,r.role_key,r.role_sort,r.status,r.del_flag,r.create_by,r.create_time,r.update_by,r.update_time
+        FROM sys_role r
+        WHERE r.role_id = #{roleId,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectRolesByUserId" parameterType="java.lang.Long" resultMap="RoleResultMap">
+        <include refid="selectRoleJoinVo"/>
+        WHERE r.del_flag = '0' AND  u.user_id = #{userId,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectRolesByUserName" parameterType="String" resultMap="RoleResultMap">
+        <include refid="selectRoleJoinVo"/>
+        WHERE r.del_flag = '0' AND u.user_name = #{userName}
+        ORDER BY r.role_sort ASC
+    </select>
+
+    <select id="selectRoleIdListByUserId" parameterType="Long" resultType="Long">
+        SELECT r.role_id
+        FROM sys_role r
+                 LEFT JOIN sys_user_role ur ON ur.role_id = r.role_id
+                 LEFT JOIN sys_user u ON u.user_id = ur.user_id
+        where r.del_flag = '0' AND u.user_id = #{userId}
+        ORDER BY r.role_sort ASC
+    </select>
+
+    <select id="selectRoleList" parameterType="Role" resultMap="RoleResultMap">
+        SELECT r.role_id,r.role_name,r.role_key,r.role_sort,r.status,r.del_flag,r.create_by,r.create_time,r.update_by,r.update_time
+        FROM sys_role r
+        <where>
+            <if test="roleId != null  and roleId != ''"> and r.role_id = #{roleId,jdbcType=BIGINT}</if>
+            <if test="roleName != null  and roleName != ''"> and r.role_name = #{roleName,jdbcType=VARCHAR}</if>
+            <if test="roleKey != null  and roleId != ''"> and r.role_key = #{roleKey,jdbcType=VARCHAR}</if>
+            <if test="status != null  and status != ''"> and r.status = #{status,jdbcType=CHAR}</if>
+        </where>
+        ORDER BY r.role_sort ASC
+    </select>
+
+    <select id="selectAllRole" resultMap="RoleResultMap">
+        SELECT r.role_id,r.role_name,r.role_key,r.role_sort,r.status,r.del_flag,r.create_by,r.create_time,r.update_by,r.update_time
+        FROM sys_role r
+        ORDER BY r.role_sort ASC
+    </select>
+
+    <delete id="deleteRoleById" parameterType="java.lang.Long">
+        DELETE FROM sys_role
+        WHERE  role_id = #{roleId,jdbcType=BIGINT}
+    </delete>
+
+    <delete id="deleteRoleByIds" parameterType="Long">
+        DELETE FROM sys_role WHERE role_id in
+        <foreach collection="array" item="roleId" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+    </delete>
+
+    <insert id="insertRole" keyColumn="role_id" keyProperty="roleId" parameterType="Role" useGeneratedKeys="true">
+        INSERT sys_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="roleId != null">role_id,</if>
+            <if test="roleName != null">role_name,</if>
+            <if test="roleKey != null">role_key,</if>
+            <if test="roleSort != null">role_sort,</if>
+            <if test="status != null">status,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="roleId != null">#{roleId,jdbcType=BIGINT},</if>
+            <if test="roleName != null">#{roleName,jdbcType=VARCHAR},</if>
+            <if test="roleKey != null">#{roleKey,jdbcType=VARCHAR},</if>
+            <if test="roleSort != null">#{roleSort,jdbcType=INTEGER},</if>
+            <if test="status != null">#{status,jdbcType=CHAR},</if>
+            <if test="delFlag != null">#{delFlag,jdbcType=CHAR},</if>
+            <if test="createBy != null">#{createBy,jdbcType=VARCHAR},</if>
+            <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+
+    <update id="updateRole" parameterType="Role">
+        UPDATE sys_role
+        <set>
+            <if test="roleName != null">
+                role_name = #{roleName,jdbcType=VARCHAR},
+            </if>
+            <if test="roleKey != null">
+                role_key = #{roleKey,jdbcType=VARCHAR},
+            </if>
+            <if test="roleSort != null">
+                role_sort = #{roleSort,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=CHAR},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag,jdbcType=CHAR},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        WHERE   role_id = #{roleId,jdbcType=BIGINT}
+    </update>
+
+    <select id="checkRoleKeyUnique" parameterType="String" resultMap="RoleResultMap">
+        SELECT r.role_id,r.role_name,r.role_key,r.role_sort
+        FROM sys_role r
+        WHERE r.role_key=#{roleKey} limit 1
+    </select>
+</mapper>
+

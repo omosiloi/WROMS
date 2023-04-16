@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.scau.mis.system.mapper.UserMapper">
+
+    <resultMap id="UserResultMap" type="User">
+        <id property="userId" column="user_id" jdbcType="BIGINT"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="nickName" column="nick_name" jdbcType="VARCHAR"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="CHAR"/>
+        <result property="delFlag" column="del_flag" jdbcType="CHAR"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <collection property="roles" javaType="java.util.ArrayList" ofType="Role">
+            <id property="roleId" column="role_id" jdbcType="BIGINT"/>
+            <result property="roleName" column="role_name" jdbcType="VARCHAR"/>
+            <result property="roleKey" column="role_key" jdbcType="VARCHAR"/>
+            <result property="roleSort" column="role_sort" jdbcType="INTEGER"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectUserById" parameterType="java.lang.Long" resultMap="UserResultMap">
+        SELECT u.user_id,u.user_name,u.nick_name,u.phone,u.avatar,u.password,u.status,u.del_flag,u.create_by,u.create_time,u.update_by,u.update_time,
+               r.role_id, r.role_name, r.role_key, r.role_sort
+        FROM sys_user u
+                 LEFT JOIN sys_user_role ur on u.user_id = ur.user_id
+                 LEFT JOIN sys_role r ON r.role_id = ur.role_id
+        WHERE  u.user_id = #{userId,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectUserByUserName" parameterType="String" resultMap="UserResultMap">
+        SELECT u.user_id,u.user_name,u.nick_name,u.phone,u.avatar,u.password,u.status,u.del_flag,u.create_by,u.create_time,u.update_by,u.update_time,
+               r.role_id, r.role_name, r.role_key, r.role_sort
+        FROM sys_user u
+                 LEFT JOIN sys_user_role ur on u.user_id = ur.user_id
+                 LEFT JOIN sys_role r ON r.role_id = ur.role_id
+        WHERE  u.user_name = #{userName}
+    </select>
+
+    <select id="selectUserList" parameterType="User" resultMap="UserResultMap">
+        SELECT u.user_id,u.user_name,u.nick_name,u.phone,u.avatar,u.password,u.status,u.del_flag,u.create_by,u.create_time,u.update_by,u.update_time
+        FROM sys_user u
+        <where>
+            <if test="userId != null  and userId != ''"> and u.user_id = #{userId,jdbcType=BIGINT}</if>
+            <if test="userName != null  and userName != ''"> and u.user_name = #{userName,jdbcType=VARCHAR}</if>
+            <if test="status != null  and status != ''"> and u.status = #{status,jdbcType=CHAR}</if>
+        </where>
+    </select>
+
+    <delete id="deleteUserById" parameterType="java.lang.Long">
+        DELETE FROM sys_user
+        WHERE  user_id = #{userId,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="insertUser" keyColumn="user_id" keyProperty="userId" parameterType="User" useGeneratedKeys="true">
+        INSERT INTO sys_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="nickName != null">nick_name,</if>
+            <if test="phone != null">phone,</if>
+            <if test="avatar != null">avatar,</if>
+            <if test="password != null">password,</if>
+            <if test="status != null">status,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId,jdbcType=BIGINT},</if>
+            <if test="userName != null">#{userName,jdbcType=VARCHAR},</if>
+            <if test="nickName != null">#{nickName,jdbcType=VARCHAR},</if>
+            <if test="phone != null">#{phone,jdbcType=VARCHAR},</if>
+            <if test="avatar != null">#{avatar,jdbcType=VARCHAR},</if>
+            <if test="password != null">#{password,jdbcType=VARCHAR},</if>
+            <if test="status != null">#{status,jdbcType=CHAR},</if>
+            <if test="delFlag != null">#{delFlag,jdbcType=CHAR},</if>
+            <if test="createBy != null">#{createBy,jdbcType=VARCHAR},</if>
+            <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+    <update id="updateUser" parameterType="User">
+        UPDATE sys_user
+        <set>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="nickName != null">
+                nick_name = #{nickName,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="avatar != null">
+                avatar = #{avatar,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=CHAR},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag,jdbcType=CHAR},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        WHERE   user_id = #{userId,jdbcType=BIGINT}
+    </update>
+
+    <select id="checkUserNameUnique" parameterType="String" resultType="int">
+        SELECT count(1) FROM sys_user WHERE user_name = #{userName} limit 1
+    </select>
+
+    <update id="updateUserAvatar" parameterType="User">
+        UPDATE sys_user SET avatar = #{avatar} WHERE user_name = #{userName}
+    </update>
+
+    <update id="resetUserPassword" parameterType="User">
+        UPDATE sys_user SET password = #{password} WHERE user_name = #{userName}
+    </update>
+</mapper>

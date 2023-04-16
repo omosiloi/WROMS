@@ -67,6 +67,6 @@
     <logger name="org.springframework" level="INFO" />
 
     <!--项目系统日志-->
-    <logger name="edu.scau.mis" level="DEBUG"/>
+    <logger name="edu.scau.store-backend" level="DEBUG"/>
 
 </configuration>

@@ -9,8 +9,10 @@ import getPageTitle from '@/utils/get-page-title'
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
 const whiteList = ['/login'] // no redirect whitelist
-
-router.beforeEach(async(to, from, next) => {
+/**
+ * 路由守卫
+ */
+router.beforeEach(async (to, from, next) => {
   // start progress bar
   NProgress.start()
 
@@ -26,19 +28,27 @@ router.beforeEach(async(to, from, next) => {
       next({ path: '/' })
       NProgress.done()
     } else {
-      const hasGetUserInfo = store.getters.name
-      if (hasGetUserInfo) {
+      const hasRoles = store.getters.roles && store.getters.roles.length > 0
+      if (hasRoles) {
         next()
       } else {
         try {
-          // get user info
+          // 获取用户信息
+          // 注意：roles必须为数组 如: ['admin'] or ,['developer','editor']
           await store.dispatch('user/getInfo')
 
-          next()
+          // 基于角色生成动态路由
+          const accessRoutes = await store.dispatch('GenerateMenuRoutes')
+          // 动态添加可以访问的路由
+          router.addRoutes(accessRoutes)
+
+          // hack method 确保添加路由工作addRouter完成
+          // 设置replace为true, 导航不会留下历史记录
+          next({ ...to, replace: true })
         } catch (error) {
-          // remove token and go to login page to re-login
+          // 去除token返回登录页重新登录
           await store.dispatch('user/resetToken')
-          Message.error(error || 'Has Error')
+          Message.error(error || '您的登录已经过期，请重新登录!')
           next(`/login?redirect=${to.path}`)
           NProgress.done()
         }
