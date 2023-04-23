@@ -1,0 +1,12 @@
+INSERT INTO `order_details` VALUES (1, 1, 1, 2, '2023-04-17 17:19:41', '2023-04-17 17:19:41');
+INSERT INTO `order_details` VALUES (2, 1, 3, 1, '2023-04-17 17:19:41', '2023-04-17 17:19:41');
+INSERT INTO `order_details` VALUES (3, 2, 2, 2, '2023-04-17 17:19:41', '2023-04-17 17:19:41');
+INSERT INTO `order_details` VALUES (4, 2, 4, 2, '2023-04-17 17:19:41', '2023-04-17 17:19:41');
+INSERT INTO `order_details` VALUES (5, 3, 1, 1, '2023-04-17 17:19:41', '2023-04-17 17:19:41');
+INSERT INTO `order_details` VALUES (6, 3, 7, 2, '2023-04-17 17:19:41', '2023-04-17 17:19:41');
+INSERT INTO `order_details` VALUES (7, 4, 3, 2, '2023-04-17 17:19:41', '2023-04-17 17:19:41');
+INSERT INTO `order_details` VALUES (8, 4, 4, 2, '2023-04-17 17:19:41', '2023-04-17 17:19:41');
+INSERT INTO `order_details` VALUES (9, 4, 8, 4, '2023-04-17 17:19:41', '2023-04-17 17:19:41');
+INSERT INTO `order_details` VALUES (10, 5, 1, 1, '2023-04-17 17:19:41', '2023-04-17 17:19:41');
+INSERT INTO `order_details` VALUES (11, 5, 2, 2, '2023-04-17 17:19:41', '2023-04-17 17:19:41');
+INSERT INTO `order_details` VALUES (12, 5, 5, 1, '2023-04-17 17:19:41', '2023-04-17 17:19:41');

@@ -11,7 +11,7 @@
     <modules>
         <module>mis-core</module>
         <module>mis-system</module>
-        <module>mis-pos</module>
+        <module>mis-sale</module>
         <module>mis-web</module>
         <module>mis-gen</module>
     </modules>

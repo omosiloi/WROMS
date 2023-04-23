@@ -1,0 +1,3 @@
+INSERT INTO `sys_user` VALUES (1, 'admin', '管理员', '13866668888', 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif', '$2a$10$HM/0q0kPHoSxmoJOgTBrqujJvP5TR.jXY48wXYiZJ84CfeORcbVam', '0', '0', '', '2022-08-28 11:58:02', '', NULL);
+INSERT INTO `sys_user` VALUES (2, 'tom', '汤姆', '13577775555', 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif', '$2a$10$HM/0q0kPHoSxmoJOgTBrqujJvP5TR.jXY48wXYiZJ84CfeORcbVam', '0', '0', '', '2022-08-28 11:58:49', '', NULL);
+INSERT INTO `sys_user` VALUES (3, 'jack', '杰克', '13422223333', 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif', '$2a$10$HM/0q0kPHoSxmoJOgTBrqujJvP5TR.jXY48wXYiZJ84CfeORcbVam', '0', '0', '', '2022-08-28 12:06:59', '', NULL);

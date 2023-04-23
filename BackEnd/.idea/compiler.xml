@@ -7,9 +7,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="mis-web" />
-        <module name="mis-pos" />
         <module name="mis-core" />
         <module name="mis-gen" />
+        <module name="mis-sale" />
         <module name="mis-system" />
       </profile>
     </annotationProcessing>
