@@ -369,7 +369,7 @@ export default {
     },
 
     /** 新增按钮操作 */
-    handleAdd () {
+    handleAdd() {
       this.resetForm()
       this.open = true
       this.title = '添加User'
