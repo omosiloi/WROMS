@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: 'MISP系统后台',
+  title: '西餐厅管理系统',
 
   /**
    * @type {boolean} true | false

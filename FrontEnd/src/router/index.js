@@ -4,18 +4,19 @@ Vue.use(Router)
 import Layout from '@/layout'
 
 export const constantRoutes = [
+  //登录页面
   {
     path: '/login',
     component: () => import('@/views/login/index'),
     hidden: true
   },
-
+  //404页面
   {
     path: '/404',
     component: () => import('@/views/error/404'),
     hidden: true
   },
-
+  //首页
   {
     path: '/',
     component: Layout,
@@ -37,7 +38,8 @@ const createRouter = () => new Router({
 const router = createRouter()
 
 export function resetRouter () {
-  const newRouter = createRouter()
+  const newRouter = createRouter({
+  })
   router.matcher = newRouter.matcher
 }
 

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.scau.mis.sale.mapper.OrderDetailMapper">
+
+    <resultMap id="OrderDetailResultMap" type="OrderDetail">
+        <id property="orderDetailId" column="order_detail_id" jdbcType="BIGINT"/>
+        <result property="orderId" column="order_id" jdbcType="BIGINT"/>
+        <result property="dishId" column="dish_id" jdbcType="BIGINT"/>
+        <result property="quantity" column="price" jdbcType="INTEGER"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+<!--    <sql id="selectOrderDetailJoinVo">-->
+<!--        SELECT od.order_detail_id,od.order_id,od.dish_id,od.quantity,d.create_by,d.create_time,d.update_by,d.update_time-->
+<!--        FROM order_detail od-->
+<!--        LEFT JOIN order o ON o.order_id = od.order_id-->
+<!--    </sql>-->
+
+    <select id="selectOrderDetailById" parameterType="java.lang.Long" resultMap="OrderDetailResultMap">
+        SELECT od.order_detail_id,od.order_id,od.dish_id,od.quantity,od.create_by,od.create_time,od.update_by,od.update_time
+        FROM sale_order_detail od
+        WHERE od.order_detail_id = #{orderDetailId,jdbcType=BIGINT}
+    </select>
+
+<!--    <select id="selectOrderDetailsByOrderId" parameterType="java.lang.Long" resultMap="OrderDetailResultMap">-->
+<!--        <include refid="selectOrderDetailJoinVo"/>-->
+<!--        WHERE o.order_id = #{orderId,jdbcType=BIGINT}-->
+<!--    </select>-->
+
+<!--    <select id="selectOrderDetailsByOrderName" parameterType="String" resultMap="OrderDetailResultMap">-->
+<!--        <include refid="selectDishJoinVo"/>-->
+<!--        WHERE o.order_name = #{orderName}-->
+<!--        ORDER BY od.order_detail_id ASC-->
+<!--    </select>-->
+
+<!--    <select id="selectOrderDetailIdListByOrderId" parameterType="Long" resultType="Long">-->
+<!--        SELECT od.order_detail_id-->
+<!--        FROM order_detail od-->
+<!--        LEFT JOIN order o ON o.order_id = od.order_id-->
+<!--        where o.order_id = #{orderId}-->
+<!--        ORDER BY od.order_detail_id ASC-->
+<!--    </select>-->
+
+    <select id="selectOrderDetailList" parameterType="OrderDetail" resultMap="OrderDetailResultMap">
+        SELECT od.order_detail_id,od.order_id,od.dish_id,od.quantity,od.create_by,od.create_time,od.update_by,od.update_time
+        FROM sale_order_detail od
+        <where>
+            <if test="orderDetailId != null  and dishId != ''"> and od.order_detail_id = #{orderDetailId,jdbcType=BIGINT}</if>
+        </where>
+        ORDER BY od.order_detail_id ASC
+    </select>
+
+    <select id="selectAllOrderDetail" resultMap="OrderDetailResultMap">
+        SELECT od.order_detail_id,od.order_id,od.dish_id,od.quantity,od.create_by,od.create_time,od.update_by,od.update_time
+        FROM sale_order_detail od
+        ORDER BY od.order_detail_id ASC
+    </select>
+
+    <delete id="deleteOrderDetailById" parameterType="java.lang.Long">
+        DELETE FROM sale_order_detail
+        WHERE  order_detail_id = #{orderDetailId,jdbcType=BIGINT}
+    </delete>
+
+    <delete id="deleteOrderDetailByIds" parameterType="Long">
+        DELETE FROM sale_order_detail WHERE order_detail_id in
+        <foreach collection="array" item="orderDetailId" open="(" separator="," close=")">
+            #{orderDetailId}
+        </foreach>
+    </delete>
+
+    <insert id="insertOrderDetail" keyColumn="order_detail_id" keyProperty="orderDetailId" parameterType="orderDetail" useGeneratedKeys="true">
+        INSERT sale_order_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderDetailId != null">order_detail_id,</if>
+            <if test="orderId != null">order_id,</if>
+            <if test="dishId != null">dish_id,</if>
+            <if test="quantity != null">quantity,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderDetailId != null">#{orderDetailId,jdbcType=BIGINT},</if>
+            <if test="orderId != null">#{orderId,jdbcType=BIGINT},</if>
+            <if test="dishId != null">#{dishId,jdbcType=BIGINT},</if>
+            <if test="quantity != null">#{quantity,jdbcType=INTEGER},</if>
+            <if test="createBy != null">#{createBy,jdbcType=VARCHAR},</if>
+            <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+
+    <update id="updateOrderDetail" parameterType="OrderDetail">
+        UPDATE sale_order_detail
+        <set>
+            <if test="orderId != null">
+                order_id = #{orderId,jdbcType=BIGINT},
+            </if>
+            <if test="dishId != null">
+                dish_id = #{dishId,jdbcType=BIGINT},
+            </if>
+            <if test="quantity != null">
+                quantity = #{quantity,jdbcType=INTEGER},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        WHERE   order_detail_id = #{orderDetailId,jdbcType=BIGINT}
+    </update>
+
+</mapper>
+

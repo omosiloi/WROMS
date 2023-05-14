@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.scau.mis.sale.mapper.OrderMapper">
+
+    <resultMap id="OrderResultMap" type="Order">
+        <id property="orderId" column="order_id" jdbcType="BIGINT"/>
+        <result property="tableId" column="table_id" jdbcType="BIGINT"/>
+        <result property="totalPrice" column="total_price" jdbcType="DECIMAL"/>
+        <result property="orderTime" column="order_time" jdbcType="TIMESTAMP"/>
+        <result property="status" column="status" jdbcType="VARCHAR"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+<!--    <sql id="selectOrderJoinVo">-->
+<!--        SELECT d.order_id,d.order_name,d.total_price,d.order_time,d.status,d.create_by,d.create_time,d.update_by,d.update_time-->
+<!--        FROM order d-->
+<!--        LEFT JOIN order_detail od ON od.order_id = d.order_id-->
+<!--        LEFT JOIN order o ON o.order_id = od.order_id-->
+<!--    </sql>-->
+
+    <select id="selectOrderById" parameterType="java.lang.Long" resultMap="OrderResultMap">
+        SELECT o.order_id,o.table_id,o.total_price,o.order_time,o.status,o.create_by,o.create_time,o.update_by,o.update_time
+        FROM sale_order o
+        WHERE o.order_id = #{orderId,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectOrderList" parameterType="Order" resultMap="OrderResultMap">
+        SELECT o.order_id,o.table_id,o.total_price,o.order_time,o.status,o.create_by,o.create_time,o.update_by,o.update_time
+        FROM sale_order o
+        <where>
+            <if test="orderId != null  and orderId != ''"> and d.order_id = #{order_id,jdbcType=BIGINT}</if>
+            <if test="tableId != null  and tableId != ''"> and d.table_id = #{table_id,jdbcType=BIGINT}</if>
+            <if test="status != null  and status != ''"> and d.status = #{status,jdbcType=CHAR}</if>
+        </where>
+        ORDER BY o.order_time ASC
+    </select>
+
+    <select id="selectAllOrder" resultMap="OrderResultMap">
+        SELECT o.order_id,o.table_id,o.total_price,o.order_time,o.status,o.create_by,o.create_time,o.update_by,o.update_time
+        FROM sale_order o
+        ORDER BY o.order_time ASC
+    </select>
+
+    <delete id="deleteOrderById" parameterType="java.lang.Long">
+        DELETE FROM sale_order
+        WHERE  order_id = #{orderId,jdbcType=BIGINT}
+    </delete>
+
+    <delete id="deleteOrderByIds" parameterType="Long">
+        DELETE FROM sale_order WHERE order_id in
+        <foreach collection="array" item="orderId" open="(" separator="," close=")">
+            #{orderId}
+        </foreach>
+    </delete>
+
+    <insert id="insertOrder" keyColumn="order_id" keyProperty="orderId" parameterType="Order" useGeneratedKeys="true">
+        INSERT sale_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">order_id,</if>
+            <if test="tableId != null">table_id,</if>
+            <if test="totalPrice != null">total_price,</if>
+            <if test="orderTime != null">order_time,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">#{orderId,jdbcType=BIGINT},</if>
+            <if test="tableId != null">#{tableId,jdbcType=BIGINT},</if>
+            <if test="totalPrice != null">#{totalPrice,jdbcType=DECIMAL},</if>
+            <if test="orderTime != null">#{orderTime,jdbcType=TIMESTAMP},</if>
+            <if test="status != null">#{status,jdbcType=VARCHAR},</if>
+            <if test="createBy != null">#{createBy,jdbcType=VARCHAR},</if>
+            <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+
+    <update id="updateOrder" parameterType="Order">
+        UPDATE sale_order
+        <set>
+            <if test="tableId != null">
+                table_id = #{tableId,jdbcType=BIGINT},
+            </if>
+            <if test="totalPrice != null">
+                total_price = #{totalPrice,jdbcType=VARCHAR},
+            </if>
+            <if test="orderTime != null">
+                order_time = #{orderTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=CHAR},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        WHERE   order_id = #{orderId,jdbcType=BIGINT}
+    </update>
+
+</mapper>
+

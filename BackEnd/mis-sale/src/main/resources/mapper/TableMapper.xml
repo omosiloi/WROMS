@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.scau.mis.sale.mapper.TableMapper">
+
+    <resultMap id="TableResultMap" type="Table">
+        <id property="tableId" column="table_id" jdbcType="BIGINT"/>
+        <result property="tableName" column="table_name" jdbcType="VARCHAR"/>
+        <result property="tableCapacity" column="table_capacity" jdbcType="INTEGER"/>
+        <result property="status" column="status" jdbcType="VARCHAR"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+<!--    <sql id="selectTableJoinVo">-->
+<!--        SELECT t.table_id,t.table_name,t.table_capacity,t.status,t.create_by,t.create_time,t.update_by,t.update_time-->
+<!--        FROM table t-->
+<!--        LEFT JOIN order o ON o.table_id = t.table_id-->
+<!--    </sql>-->
+
+    <select id="selectTableById" parameterType="java.lang.Long" resultMap="TableResultMap">
+        SELECT t.table_id,t.table_name,t.table_capacity,t.status,t.create_by,t.create_time,t.update_by,t.update_time
+        FROM sale_table t
+        WHERE t.table_id = #{tableId,jdbcType=BIGINT}
+    </select>
+
+<!--    <select id="selectTablesByOrderId" parameterType="java.lang.Long" resultMap="TableResultMap">-->
+<!--        <include refid="selectTableJoinVo"/>-->
+<!--        WHERE o.order_id = #{orderId,jdbcType=BIGINT}-->
+<!--    </select>-->
+
+<!--    <select id="selectTablesByOrderName" parameterType="String" resultMap="TableResultMap">-->
+<!--        <include refid="selectTableJoinVo"/>-->
+<!--        WHERE o.order_name = #{orderName}-->
+<!--        ORDER BY t.table_id ASC-->
+<!--    </select>-->
+
+<!--    <select id="selectTableIdListByOrderId" parameterType="Long" resultType="Long">-->
+<!--        SELECT t.table_id-->
+<!--        FROM table t-->
+<!--        LEFT JOIN order od ON o.table_id = t.table_id-->
+<!--        where o.order_id = #{orderId}-->
+<!--        ORDER BY t.table_id ASC-->
+<!--    </select>-->
+
+    <select id="selectTableList" parameterType="Table" resultMap="TableResultMap">
+        SELECT t.table_id,t.table_name,t.table_capacity,t.status,t.create_by,t.create_time,t.update_by,t.update_time
+        FROM sale_table t
+        <where>
+            <if test="tableId != null  and tableId != ''"> and t.table_id = #{tableId,jdbcType=BIGINT}</if>
+            <if test="tableName != null  and tableName != ''"> and t.table_name = #{tableName,jdbcType=VARCHAR}</if>
+            <if test="status != null  and status != ''"> and t.status = #{status,jdbcType=CHAR}</if>
+        </where>
+        ORDER BY t.table_id ASC
+    </select>
+
+    <select id="selectAllTable" resultMap="TableResultMap">
+        SELECT t.table_id,t.table_name,t.table_capacity,t.status,t.create_by,t.create_time,t.update_by,t.update_time
+        FROM sale_table t
+        ORDER BY t.table_id ASC
+    </select>
+
+    <delete id="deleteTableById" parameterType="java.lang.Long">
+        DELETE FROM sale_table
+        WHERE  table_id = #{tableId,jdbcType=BIGINT}
+    </delete>
+
+    <delete id="deleteTableByIds" parameterType="Long">
+        DELETE FROM sale_table WHERE table_id in
+        <foreach collection="array" item="tableId" open="(" separator="," close=")">
+            #{tableId}
+        </foreach>
+    </delete>
+
+    <insert id="insertTable" keyColumn="table_id" keyProperty="tableId" parameterType="Table" useGeneratedKeys="true">
+        INSERT sale_table
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tableId != null">table_id,</if>
+            <if test="tableName != null">table_name,</if>
+            <if test="tableCapacity != null">table_capacity,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tableId != null">#{tableId,jdbcType=BIGINT},</if>
+            <if test="tableName != null">#{tableName,jdbcType=VARCHAR},</if>
+            <if test="tableCapacity != null">#{tableCapacity,jdbcType=INTEGER},</if>
+            <if test="status != null">#{status,jdbcType=VARCHAR},</if>
+            <if test="createBy != null">#{createBy,jdbcType=VARCHAR},</if>
+            <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+
+    <update id="updateTable" parameterType="Table">
+        UPDATE sale_table
+        <set>
+            <if test="tableName != null">
+                table_name = #{tableName,jdbcType=VARCHAR},
+            </if>
+            <if test="tableCapacity != null">
+                table_capacity = #{tableCapacity,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=CHAR},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        WHERE   table_id = #{tableId,jdbcType=BIGINT}
+    </update>
+
+</mapper>
+

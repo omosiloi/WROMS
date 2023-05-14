@@ -6,7 +6,7 @@
 // 导入静态路由
 import { constantRoutes } from '@/router'
 // 后端请求路由
-import { getRouters } from '@/api/employee/auth'
+import { getRouters } from '@/api/auth'
 import Layout from '@/layout/index'
 
 const menu = {

@@ -3,14 +3,17 @@ import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 
+// 创建axios实例
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
   timeout: 5000
 })
 
+// 请求拦截器
 service.interceptors.request.use(
   config => {
     if (store.getters.token) {
+      // 此处通常放置验证token代码
       config.headers['Authorization'] = 'Bearer ' + getToken()
     }
     return config

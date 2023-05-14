@@ -37,6 +37,7 @@ module.exports = {
       errors: true
     },
     // before: require('./mock/mock-server.js')
+    // 设置代理解决跨域
     proxy: {
       [process.env.VUE_APP_BASE_API]: {
         target: 'http://localhost:8081',

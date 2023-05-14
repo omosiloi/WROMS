@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.scau.mis.sale.mapper.DishMapper">
+
+    <resultMap id="DishResultMap" type="Dish">
+        <id property="dishId" column="dish_id" jdbcType="BIGINT"/>
+        <result property="dishName" column="dish_name" jdbcType="VARCHAR"/>
+        <result property="price" column="price" jdbcType="DECIMAL"/>
+        <result property="category" column="category" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+<!--    <sql id="selectDishJoinVo">-->
+<!--        SELECT d.dish_id,d.dish_name,d.price,d.category,d.description,d.create_by,d.create_time,d.update_by,d.update_time-->
+<!--        FROM dish d-->
+<!--        LEFT JOIN order_detail od ON od.dish_id = d.dish_id-->
+<!--        LEFT JOIN order o ON o.order_id = od.order_id-->
+<!--    </sql>-->
+
+    <select id="selectDishById" parameterType="java.lang.Long" resultMap="DishResultMap">
+        SELECT d.dish_id,d.dish_name,d.price,d.category,d.description,d.create_by,d.create_time,d.update_by,d.update_time
+        FROM sale_dish d
+        WHERE d.dish_id = #{dishId,jdbcType=BIGINT}
+    </select>
+
+<!--    <select id="selectDishesByOrderId" parameterType="java.lang.Long" resultMap="DishResultMap">-->
+<!--        <include refid="selectDishJoinVo"/>-->
+<!--        WHERE o.order_id = #{orderId,jdbcType=BIGINT}-->
+<!--    </select>-->
+
+<!--    <select id="selectDishesByOrderName" parameterType="String" resultMap="DishResultMap">-->
+<!--        <include refid="selectDishJoinVo"/>-->
+<!--        WHERE o.order_name = #{orderName}-->
+<!--        ORDER BY d.category ASC-->
+<!--    </select>-->
+
+<!--    <select id="selectDishIdListByOrderId" parameterType="Long" resultType="Long">-->
+<!--        SELECT d.dish_id-->
+<!--        FROM dish d-->
+<!--        LEFT JOIN order_detail od ON od.dish_id = d.dish_id-->
+<!--        LEFT JOIN order o ON o.order_id = od.order_id-->
+<!--        where o.order_id = #{orderId}-->
+<!--        ORDER BY d.category ASC-->
+<!--    </select>-->
+
+    <select id="selectDishList" parameterType="Dish" resultMap="DishResultMap">
+        SELECT d.dish_id,d.dish_name,d.price,d.category,d.description,d.create_by,d.create_time,d.update_by,d.update_time
+        FROM sale_dish d
+        <where>
+            <if test="dishId != null  and dishId != ''"> and d.dish_id = #{dishId,jdbcType=BIGINT}</if>
+            <if test="dishName != null  and dishName != ''"> and d.dish_name = #{dishName,jdbcType=VARCHAR}</if>
+        </where>
+        ORDER BY d.category ASC
+    </select>
+
+    <select id="selectDishByCategory" parameterType="java.lang.String" resultMap="DishResultMap">
+        SELECT d.dish_id,d.dish_name,d.price,d.category,d.description,d.create_by,d.create_time,d.update_by,d.update_time
+        FROM sale_dish d
+        <where>
+            d.category = #{category,jdbcType=VARCHAR}
+        </where>
+        ORDER BY d.category ASC
+    </select>
+
+    <select id="selectAllDish" resultMap="DishResultMap">
+        SELECT d.dish_id,d.dish_name,d.price,d.category,d.description,d.create_by,d.create_time,d.update_by,d.update_time
+        FROM sale_dish d
+        ORDER BY d.category ASC
+    </select>
+
+    <delete id="deleteDishById" parameterType="java.lang.Long">
+        DELETE FROM sale_dish
+        WHERE  dish_id = #{dishId,jdbcType=BIGINT}
+    </delete>
+
+    <delete id="deleteDishByIds" parameterType="Long">
+        DELETE FROM sale_dish WHERE dish_id in
+        <foreach collection="array" item="dishId" open="(" separator="," close=")">
+            #{dishId}
+        </foreach>
+    </delete>
+
+    <insert id="insertDish" keyColumn="dish_id" keyProperty="dishId" parameterType="Dish" useGeneratedKeys="true">
+        INSERT sale_dish
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="dishId != null">dish_id,</if>
+            <if test="dishName != null">dish_name,</if>
+            <if test="price != null">price,</if>
+            <if test="category != null">category,</if>
+            <if test="description != null">description,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="dishId != null">#{dishId,jdbcType=BIGINT},</if>
+            <if test="dishName != null">#{dishName,jdbcType=VARCHAR},</if>
+            <if test="price != null">#{price,jdbcType=DECIMAL},</if>
+            <if test="category != null">#{category,jdbcType=VARCHAR},</if>
+            <if test="description != null">#{description,jdbcType=VARCHAR},</if>
+            <if test="createBy != null">#{createBy,jdbcType=VARCHAR},</if>
+            <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+        </trim>
+    </insert>
+
+    <update id="updateDish" parameterType="Dish">
+        UPDATE sale_dish
+        <set>
+            <if test="dishName != null">
+                dish_name = #{dishName,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                price = #{price,jdbcType=VARCHAR},
+            </if>
+            <if test="category != null">
+                category = #{category,jdbcType=INTEGER},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=CHAR},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        WHERE   dish_id = #{dishId,jdbcType=BIGINT}
+    </update>
+
+</mapper>
+

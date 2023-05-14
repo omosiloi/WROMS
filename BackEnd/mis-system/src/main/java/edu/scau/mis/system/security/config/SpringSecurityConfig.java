@@ -36,8 +36,8 @@ public class SpringSecurityConfig {
     };
     /* 不受控API_PATH */
     private static final String[] SECURITY_IGNORE_API_PATH = {
-            //  "/category/**", "/product/**", // 白名单API,绕过登录方便开发测试
-            "/auth/login","/auth/getInfo","/auth/getRouters"
+            //  通过这条代码可以绕过访问控制，直接访问所有地址
+            "/**"
     };
     /* 用户服务 */
     @Autowired
