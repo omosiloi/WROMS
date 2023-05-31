@@ -17,7 +17,12 @@ public class DishServiceImpl implements IDishService {
     public Dish selectDishById(Long dishId) {
         return dishMapper.selectDishById(dishId);
     }
-
+    public List<Dish> selectDishByName(String dishName) {
+        return dishMapper.selectDishByName(dishName);
+    }
+    public List<Dish> selectDishByCategory(String category) {
+        return dishMapper.selectDishByCategory(category);
+    }
     @Override
     public List<Dish> selectAllDish(){
         return dishMapper.selectAllDish();
@@ -43,7 +48,13 @@ public class DishServiceImpl implements IDishService {
         return dishMapper.updateDish(dish);
     }
 
-    public List<Dish> selectDishByCategory(String category) {
-        return dishMapper.selectDishByCategory(category);
-    }
+    public List<String> selectDescriptionByOrderId(Long orderId){
+        return dishMapper.selectDescriptionByOrderId(orderId);
+    };
+    public List<String> selectDescriptionByDishId(Long dishId){
+        return dishMapper.selectDescriptionByDishId(dishId);
+    };
+    public List<String> selectAllCategory(){
+        return dishMapper.selectAllCategory();
+    };
 }

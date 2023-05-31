@@ -42,4 +42,12 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
     public int updateOrderDetail(OrderDetail orderDetail) {
         return orderDetailMapper.updateOrderDetail(orderDetail);
     }
+    @Override
+    public List<OrderDetail> selectOrderDetailByDishId(Long dishId){
+        return orderDetailMapper.selectOrderDetailByDishId(dishId);
+    };
+    @Override
+    public List<OrderDetail> selectOrderDetailByOrderId(Long orderId){
+        return orderDetailMapper.selectOrderDetailByOrderId(orderId);
+    };
 }

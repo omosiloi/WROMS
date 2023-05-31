@@ -13,12 +13,15 @@ import java.util.List;
 public interface DishMapper {
     
     Dish selectDishById(Long id);
-    
+
+    List<Dish> selectDishByName(String dishName);
+    List<Dish> selectDishByCategory(String category);
+
 //    List<Dish> selectDishesByOrderId(Long orderId);
 //
 //    List<Dish> selectDishesByOrderName(String orderName);
 //
-//    List<Long> selectDishIdListByOrderId(Long orderId);
+
 
     List<Dish> selectDishList(Dish dish);
 
@@ -32,6 +35,10 @@ public interface DishMapper {
 
     int updateDish(Dish dish);
 
-    List<Dish> selectDishByCategory(String category);
+    List<String> selectDescriptionByOrderId(Long orderId);
+    List<String> selectDescriptionByDishId(Long dishId);
+    List<String> selectAllCategory();
 }
+
+
 

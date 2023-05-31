@@ -8,43 +8,24 @@
         <id property="orderDetailId" column="order_detail_id" jdbcType="BIGINT"/>
         <result property="orderId" column="order_id" jdbcType="BIGINT"/>
         <result property="dishId" column="dish_id" jdbcType="BIGINT"/>
-        <result property="quantity" column="price" jdbcType="INTEGER"/>
+        <result property="quantity" column="quantity" jdbcType="INTEGER"/>
         <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
-<!--    <sql id="selectOrderDetailJoinVo">-->
-<!--        SELECT od.order_detail_id,od.order_id,od.dish_id,od.quantity,d.create_by,d.create_time,d.update_by,d.update_time-->
-<!--        FROM order_detail od-->
-<!--        LEFT JOIN order o ON o.order_id = od.order_id-->
-<!--    </sql>-->
+    <sql id="selectOrderDetailJoinVo">
+        SELECT od.order_detail_id,od.order_id,od.dish_id,od.quantity,d.create_by,d.create_time,d.update_by,d.update_time
+        FROM order_detail od
+        LEFT JOIN order o ON o.order_id = od.order_id
+    </sql>
 
     <select id="selectOrderDetailById" parameterType="java.lang.Long" resultMap="OrderDetailResultMap">
         SELECT od.order_detail_id,od.order_id,od.dish_id,od.quantity,od.create_by,od.create_time,od.update_by,od.update_time
         FROM sale_order_detail od
         WHERE od.order_detail_id = #{orderDetailId,jdbcType=BIGINT}
     </select>
-
-<!--    <select id="selectOrderDetailsByOrderId" parameterType="java.lang.Long" resultMap="OrderDetailResultMap">-->
-<!--        <include refid="selectOrderDetailJoinVo"/>-->
-<!--        WHERE o.order_id = #{orderId,jdbcType=BIGINT}-->
-<!--    </select>-->
-
-<!--    <select id="selectOrderDetailsByOrderName" parameterType="String" resultMap="OrderDetailResultMap">-->
-<!--        <include refid="selectDishJoinVo"/>-->
-<!--        WHERE o.order_name = #{orderName}-->
-<!--        ORDER BY od.order_detail_id ASC-->
-<!--    </select>-->
-
-<!--    <select id="selectOrderDetailIdListByOrderId" parameterType="Long" resultType="Long">-->
-<!--        SELECT od.order_detail_id-->
-<!--        FROM order_detail od-->
-<!--        LEFT JOIN order o ON o.order_id = od.order_id-->
-<!--        where o.order_id = #{orderId}-->
-<!--        ORDER BY od.order_detail_id ASC-->
-<!--    </select>-->
 
     <select id="selectOrderDetailList" parameterType="OrderDetail" resultMap="OrderDetailResultMap">
         SELECT od.order_detail_id,od.order_id,od.dish_id,od.quantity,od.create_by,od.create_time,od.update_by,od.update_time
@@ -114,6 +95,20 @@
         </set>
         WHERE   order_detail_id = #{orderDetailId,jdbcType=BIGINT}
     </update>
+
+    <select id="selectOrderDetailByDishId" parameterType="java.lang.Long" resultMap="OrderDetailResultMap">
+        SELECT od.order_detail_id,od.order_id,od.dish_id,od.quantity,od.create_by,od.create_time,od.update_by,od.update_time
+        FROM sale_order_detail od
+        LEFT JOIN sale_dish d ON d.dish_id = od.dish_id
+        where d.dish_id = #{dishId,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectOrderDetailByOrderId" parameterType="java.lang.Long" resultMap="OrderDetailResultMap">
+        SELECT od.order_detail_id,od.order_id,od.dish_id,od.quantity,od.create_by,od.create_time,od.update_by,od.update_time
+        FROM sale_order_detail od
+        LEFT JOIN sale_order o ON o.order_id = od.order_id
+        where o.order_id = #{orderId,jdbcType=BIGINT}
+    </select>
 
 </mapper>
 

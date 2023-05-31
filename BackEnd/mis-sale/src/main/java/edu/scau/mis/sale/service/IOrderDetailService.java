@@ -1,5 +1,6 @@
 package edu.scau.mis.sale.service;
 
+import edu.scau.mis.sale.domain.Dish;
 import edu.scau.mis.sale.domain.OrderDetail;
 
 import java.util.List;
@@ -23,5 +24,8 @@ public interface IOrderDetailService {
     int insertOrderDetail(OrderDetail orderDetail);
 
     int updateOrderDetail(OrderDetail orderDetail);
+
+    List<OrderDetail> selectOrderDetailByDishId(Long dishId);
+    List<OrderDetail> selectOrderDetailByOrderId(Long orderId);
 
 }

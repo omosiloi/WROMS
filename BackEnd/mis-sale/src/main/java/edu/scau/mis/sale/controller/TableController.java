@@ -38,6 +38,18 @@ public class TableController {
         return AjaxResult.success(tableService.selectTableById(tableId));
     }
 
+    @ApiOperation("根据名称查询餐桌")
+    @GetMapping("/tableName/{tableName}")
+    public AjaxResult getByTableName(@PathVariable("tableName") String tableName) {
+        return AjaxResult.success(tableService.selectTableByName(tableName));
+    }
+
+    @ApiOperation("根据状态查询餐桌")
+    @GetMapping("/status/{status}")
+    public AjaxResult getByTableStatus(@PathVariable("status") String status) {
+        return AjaxResult.success(tableService.selectTableByStatus(status));
+    }
+
     @ApiOperation("新增餐桌")
     @PostMapping
     public AjaxResult add(@RequestBody Table table) {

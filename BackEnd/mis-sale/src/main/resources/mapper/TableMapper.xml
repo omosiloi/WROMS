@@ -27,6 +27,18 @@
         WHERE t.table_id = #{tableId,jdbcType=BIGINT}
     </select>
 
+    <select id="selectTableByName" parameterType="java.lang.String" resultMap="TableResultMap">
+        SELECT t.table_id,t.table_name,t.table_capacity,t.status,t.create_by,t.create_time,t.update_by,t.update_time
+        FROM sale_table t
+        WHERE t.table_name = #{tableName,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectTableByStatus" parameterType="java.lang.String" resultMap="TableResultMap">
+        SELECT t.table_id,t.table_name,t.table_capacity,t.status,t.create_by,t.create_time,t.update_by,t.update_time
+        FROM sale_table t
+        WHERE t.status = #{status,jdbcType=VARCHAR}
+    </select>
+
 <!--    <select id="selectTablesByOrderId" parameterType="java.lang.Long" resultMap="TableResultMap">-->
 <!--        <include refid="selectTableJoinVo"/>-->
 <!--        WHERE o.order_id = #{orderId,jdbcType=BIGINT}-->
@@ -102,7 +114,7 @@
                 table_name = #{tableName,jdbcType=VARCHAR},
             </if>
             <if test="tableCapacity != null">
-                table_capacity = #{tableCapacity,jdbcType=INTEGER},
+                table_capacity = #{tableCapacity,jdbcType=BIGINT},
             </if>
             <if test="status != null">
                 status = #{status,jdbcType=CHAR},

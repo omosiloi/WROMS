@@ -3,12 +3,27 @@ package edu.scau.mis.sale.domain;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 订单表(Order)实体类
  */
 public class Order implements Serializable {
     private static final long serialVersionUID = -21891901036999507L;
+
+    public List<OrderDetail> getOrderDetail() {
+        return orderDetail;
+    }
+
+    public void setOrderDetail(List<OrderDetail> orderDetail) {
+        this.orderDetail = orderDetail;
+    }
+
+    /**
+     * 关联实体
+     */
+    private List<OrderDetail> orderDetail;
+    private Table table;
 
     /**
      * 订单ID
@@ -117,6 +132,17 @@ public class Order implements Serializable {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+
+
+
+    public Table getTable() {
+        return table;
+    }
+
+    public void setTable(Table table) {
+        this.table = table;
     }
 
 }

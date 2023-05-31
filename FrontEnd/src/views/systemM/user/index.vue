@@ -239,7 +239,7 @@ import { listUserByPage, getUser, addUser, updateUser, deleteUser, authRole } fr
 import { listAllRole } from '@/api/systemM/role'
 export default {
   name: 'User',
-  data () {
+  data() {
     return {
       // 状态类型
       statusOptions: [
@@ -296,12 +296,12 @@ export default {
       roleTitle: ''
     }
   },
-  created () {
+  created() {
     this.getList()
   },
   methods: {
     /** 查询User数据列表 */
-    getList () {
+    getList() {
       this.loading = true
       listUserByPage(this.queryParams).then((response) => {
         this.userList = response.data.list
@@ -312,23 +312,23 @@ export default {
       })
     },
     /** 处理分页 */
-    handleSizeChange (val) {
+    handleSizeChange(val) {
       this.queryParams.pageSize = val
       this.getList()
     },
-    handleCurrentChange (val) {
+    handleCurrentChange(val) {
       this.queryParams.pageNum = val
       this.getList()
     },
 
     /** 数据编辑对话框取消按钮 */
-    cancel () {
+    cancel() {
       this.open = false
       this.resetForm()
     },
 
     /** 数据编辑表单清空 */
-    resetForm () {
+    resetForm() {
       this.form = {
         userId: null,
         userName: null,
@@ -337,7 +337,7 @@ export default {
       }
     },
 
-    resetRoleForm () {
+    resetRoleForm() {
       this.roleForm = {
         userId: null,
         roleIds: []
@@ -345,20 +345,20 @@ export default {
     },
 
     /** 数据筛选参数重置按钮 */
-    resetQueryParams () {
+    resetQueryParams() {
       this.queryParams.pageNum = 1
       this.queryParams.pageSize = 5
     },
 
     /** 数据筛选搜索按钮 */
-    handleQuery () {
+    handleQuery() {
       this.resetQueryParams()
       this.getList()
       this.$message.success('查询成功')
     },
 
     /** 数据筛选重置按钮 */
-    resetQuery () {
+    resetQuery() {
       this.queryParams = {
         pageNum: 1,
         pageSize: 5,
@@ -376,7 +376,7 @@ export default {
     },
 
     /** 修改按钮操作 */
-    handleUpdate (row) {
+    handleUpdate(row) {
       this.resetForm()
       getUser(row.userId).then((response) => {
         this.form = response.data
@@ -386,7 +386,7 @@ export default {
     },
 
     /** 数据提交按钮 */
-    submitForm: function () {
+    submitForm: function() {
       this.$refs['form'].validate((valid) => {
         if (valid) {
           if (this.form.userId === null) {
@@ -409,14 +409,14 @@ export default {
     },
 
     /** 删除按钮操作 */
-    handleDelete (row) {
+    handleDelete(row) {
       this.$confirm(
         '是否确认删除名称为"' + row.userName + '"的数据项?', '警告', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       })
-        .then(function () {
+        .then(function() {
           return deleteUser(row.userId)
         })
         .then(() => {
@@ -427,7 +427,7 @@ export default {
     },
 
     /** 处理分配角色 */
-    handleRole (row) {
+    handleRole(row) {
       this.roleForm.userId = row.userId
       this.roleTitle = '为用户[' + row.nickName + ']分配角色'
       this.roleDialogFormVisible = true
@@ -441,7 +441,7 @@ export default {
       })
     },
     /** 提交分配角色表单 */
-    submitAuthRole () {
+    submitAuthRole() {
       this.roleForm.roleIds = this.$refs.roleTree.getCheckedKeys()
       authRole(this.roleForm).then((response) => {
         this.$message.success(response.msg)

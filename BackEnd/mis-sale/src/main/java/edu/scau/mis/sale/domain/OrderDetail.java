@@ -10,6 +10,7 @@ import java.io.Serializable;
 public class OrderDetail implements Serializable {
     private static final long serialVersionUID = -31891901036999507L;
 
+    private Dish dish;
     /**
      * 订单明细ID
      */
@@ -106,5 +107,11 @@ public class OrderDetail implements Serializable {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+    public Dish getDish() {
+        return dish;
+    }
 
+    public void setDish(Dish dish) {
+        this.dish = dish;
+    }
 }

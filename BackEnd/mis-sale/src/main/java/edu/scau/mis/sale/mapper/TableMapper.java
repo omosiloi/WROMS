@@ -1,5 +1,6 @@
 package edu.scau.mis.sale.mapper;
 
+import edu.scau.mis.sale.domain.Dish;
 import edu.scau.mis.sale.domain.Table;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -12,6 +13,10 @@ import java.util.List;
 public interface TableMapper {
 
     Table selectTableById(Long id);
+
+    List<Table> selectTableByName(String tableName);
+
+    List<Table> selectTableByStatus(String status);
 
 //    List<Table> selectTablesByOrderId(Long orderId);
 //

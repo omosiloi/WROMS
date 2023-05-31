@@ -16,23 +16,26 @@
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
-<!--    <sql id="selectDishJoinVo">-->
-<!--        SELECT d.dish_id,d.dish_name,d.price,d.category,d.description,d.create_by,d.create_time,d.update_by,d.update_time-->
-<!--        FROM dish d-->
-<!--        LEFT JOIN order_detail od ON od.dish_id = d.dish_id-->
-<!--        LEFT JOIN order o ON o.order_id = od.order_id-->
-<!--    </sql>-->
-
     <select id="selectDishById" parameterType="java.lang.Long" resultMap="DishResultMap">
         SELECT d.dish_id,d.dish_name,d.price,d.category,d.description,d.create_by,d.create_time,d.update_by,d.update_time
         FROM sale_dish d
         WHERE d.dish_id = #{dishId,jdbcType=BIGINT}
     </select>
 
-<!--    <select id="selectDishesByOrderId" parameterType="java.lang.Long" resultMap="DishResultMap">-->
-<!--        <include refid="selectDishJoinVo"/>-->
-<!--        WHERE o.order_id = #{orderId,jdbcType=BIGINT}-->
-<!--    </select>-->
+    <select id="selectDishByName" parameterType="java.lang.String" resultMap="DishResultMap">
+        SELECT d.dish_id,d.dish_name,d.price,d.category,d.description,d.create_by,d.create_time,d.update_by,d.update_time
+        FROM sale_dish d
+        WHERE d.dish_name = #{dishName,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectDishByCategory" parameterType="java.lang.String" resultMap="DishResultMap">
+        SELECT d.dish_id,d.dish_name,d.price,d.category,d.description,d.create_by,d.create_time,d.update_by,d.update_time
+        FROM sale_dish d
+        <where>
+            d.category = #{category,jdbcType=VARCHAR}
+        </where>
+        ORDER BY d.category ASC
+    </select>
 
 <!--    <select id="selectDishesByOrderName" parameterType="String" resultMap="DishResultMap">-->
 <!--        <include refid="selectDishJoinVo"/>-->
@@ -55,15 +58,6 @@
         <where>
             <if test="dishId != null  and dishId != ''"> and d.dish_id = #{dishId,jdbcType=BIGINT}</if>
             <if test="dishName != null  and dishName != ''"> and d.dish_name = #{dishName,jdbcType=VARCHAR}</if>
-        </where>
-        ORDER BY d.category ASC
-    </select>
-
-    <select id="selectDishByCategory" parameterType="java.lang.String" resultMap="DishResultMap">
-        SELECT d.dish_id,d.dish_name,d.price,d.category,d.description,d.create_by,d.create_time,d.update_by,d.update_time
-        FROM sale_dish d
-        <where>
-            d.category = #{category,jdbcType=VARCHAR}
         </where>
         ORDER BY d.category ASC
     </select>
@@ -132,6 +126,31 @@
         </set>
         WHERE   dish_id = #{dishId,jdbcType=BIGINT}
     </update>
+
+<!--    <sql id="selectDishJoinVo">-->
+<!--        SELECT d.dish_id,d.dish_name,d.price,d.category,d.description,d.create_by,d.create_time,d.update_by,d.update_time-->
+<!--        FROM dish d-->
+<!--        LEFT JOIN order_detail od ON od.dish_id = d.dish_id-->
+<!--        LEFT JOIN order o ON o.order_id = od.order_id-->
+<!--    </sql>-->
+
+    <select id="selectAllCategory" resultType="String">
+        SELECT DISTINCT category FROM sale_dish;
+    </select>
+
+    <select id="selectDescriptionByDishId" parameterType="java.lang.Long" resultType="String">
+        SELECT d.description
+        FROM sale_dish d
+        WHERE d.dish_id = #{dishId,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectDescriptionByOrderId" parameterType="java.lang.Long" resultType="String">
+        SELECT d.description
+        FROM sale_dish d
+        LEFT JOIN sale_order_detail od ON od.dish_id = d.dish_id
+        LEFT JOIN sale_order o ON o.order_id = od.order_id
+        where o.order_id = #{orderId,jdbcType=BIGINT}
+    </select>
 
 </mapper>
 

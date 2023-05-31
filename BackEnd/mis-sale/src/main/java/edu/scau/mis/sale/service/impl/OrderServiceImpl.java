@@ -34,12 +34,19 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
-    public int insertOrder(Order order) {
-        return orderMapper.insertOrder(order);
+    public Long insertOrder(Order order) {
+        orderMapper.insertOrder(order);
+        return order.getOrderId();
     }
 
     @Override
     public int updateOrder(Order order) {
         return orderMapper.updateOrder(order);
     }
+
+    @Override
+    public List<Order> selectOrderByTableIdAndStatus(Long tableId, String status) {
+        return orderMapper.selectOrderByTableIdAndStatus(tableId, status);
+    }
+
 }

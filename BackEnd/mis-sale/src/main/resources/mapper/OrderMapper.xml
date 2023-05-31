@@ -3,7 +3,6 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="edu.scau.mis.sale.mapper.OrderMapper">
-
     <resultMap id="OrderResultMap" type="Order">
         <id property="orderId" column="order_id" jdbcType="BIGINT"/>
         <result property="tableId" column="table_id" jdbcType="BIGINT"/>
@@ -14,21 +13,67 @@
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <association property="table" javaType="edu.scau.mis.sale.domain.Table" select="getTableByTableId" column="table_id"/>
+        <collection property="orderDetail"  javaType="ArrayList" ofType="edu.scau.mis.sale.domain.OrderDetail" select="getOrderDetailByOrderId" column="order_id"/>
     </resultMap>
-
-<!--    <sql id="selectOrderJoinVo">-->
-<!--        SELECT d.order_id,d.order_name,d.total_price,d.order_time,d.status,d.create_by,d.create_time,d.update_by,d.update_time-->
-<!--        FROM order d-->
-<!--        LEFT JOIN order_detail od ON od.order_id = d.order_id-->
-<!--        LEFT JOIN order o ON o.order_id = od.order_id-->
-<!--    </sql>-->
+    <resultMap id="TableResultMap" type="Table">
+        <id property="tableId" column="table_id" jdbcType="BIGINT"/>
+        <result property="tableName" column="table_name" jdbcType="VARCHAR"/>
+        <result property="tableCapacity" column="table_capacity" jdbcType="INTEGER"/>
+        <result property="status" column="status" jdbcType="VARCHAR"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <resultMap id="OrderDetailResultMap" type="OrderDetail">
+        <id property="orderDetailId" column="order_detail_id" jdbcType="BIGINT"/>
+        <result property="orderId" column="order_id" jdbcType="BIGINT"/>
+        <result property="dishId" column="dish_id" jdbcType="BIGINT"/>
+        <result property="quantity" column="quantity" jdbcType="INTEGER"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <association property="dish" javaType="edu.scau.mis.sale.domain.Dish" select="getDishByDishId" column="dish_id"/>
+    </resultMap>
+    <resultMap id="DishResultMap" type="Dish">
+        <id property="dishId" column="dish_id" jdbcType="BIGINT"/>
+        <result property="dishName" column="dish_name" jdbcType="VARCHAR"/>
+        <result property="price" column="price" jdbcType="DECIMAL"/>
+        <result property="category" column="category" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
 
     <select id="selectOrderById" parameterType="java.lang.Long" resultMap="OrderResultMap">
         SELECT o.order_id,o.table_id,o.total_price,o.order_time,o.status,o.create_by,o.create_time,o.update_by,o.update_time
         FROM sale_order o
         WHERE o.order_id = #{orderId,jdbcType=BIGINT}
     </select>
-
+    <select id="getTableByTableId" resultType="edu.scau.mis.sale.domain.Table" resultMap="TableResultMap">
+        SELECT t.table_id,t.table_name,t.table_capacity,t.status,t.create_by,t.create_time,t.update_by,t.update_time
+        FROM sale_table t
+        WHERE t.table_id = #{table_id,jdbcType=BIGINT}
+    </select>
+    <select id="getOrderDetailByOrderId" resultType="edu.scau.mis.sale.domain.OrderDetail"  resultMap="OrderDetailResultMap">
+        SELECT od.order_detail_id,od.order_id,od.dish_id,od.quantity,od.create_by,od.create_time,od.update_by,od.update_time
+        FROM sale_order_detail od
+        where od.order_id = #{order_id,jdbcType=BIGINT}
+    </select>
+    <select id="getDishByDishId" resultType="edu.scau.mis.sale.domain.Dish" resultMap="DishResultMap">
+        SELECT d.dish_id,d.dish_name,d.price,d.category,d.description,d.create_by,d.create_time,d.update_by,d.update_time
+        FROM sale_dish d
+        WHERE d.dish_id = #{dish_id,jdbcType=BIGINT}
+    </select>
+    <select id="selectAllOrder" resultMap="OrderResultMap">
+        SELECT o.order_id,o.table_id,o.total_price,o.order_time,o.status,o.create_by,o.create_time,o.update_by,o.update_time
+        FROM sale_order o
+        ORDER BY o.order_time ASC
+    </select>
     <select id="selectOrderList" parameterType="Order" resultMap="OrderResultMap">
         SELECT o.order_id,o.table_id,o.total_price,o.order_time,o.status,o.create_by,o.create_time,o.update_by,o.update_time
         FROM sale_order o
@@ -39,18 +84,17 @@
         </where>
         ORDER BY o.order_time ASC
     </select>
-
-    <select id="selectAllOrder" resultMap="OrderResultMap">
-        SELECT o.order_id,o.table_id,o.total_price,o.order_time,o.status,o.create_by,o.create_time,o.update_by,o.update_time
+    <select id="selectOrderByTableIdAndStatus" resultMap="OrderResultMap">
+        SELECT o.order_id, o.table_id, o.total_price, o.order_time, o.status, o.create_by, o.create_time, o.update_by, o.update_time
         FROM sale_order o
-        ORDER BY o.order_time ASC
+        WHERE o.table_id = #{tableId,jdbcType=BIGINT}
+          AND o.status = #{status,jdbcType=VARCHAR}
     </select>
 
     <delete id="deleteOrderById" parameterType="java.lang.Long">
         DELETE FROM sale_order
         WHERE  order_id = #{orderId,jdbcType=BIGINT}
     </delete>
-
     <delete id="deleteOrderByIds" parameterType="Long">
         DELETE FROM sale_order WHERE order_id in
         <foreach collection="array" item="orderId" open="(" separator="," close=")">
@@ -58,7 +102,7 @@
         </foreach>
     </delete>
 
-    <insert id="insertOrder" keyColumn="order_id" keyProperty="orderId" parameterType="Order" useGeneratedKeys="true">
+    <insert id="insertOrder"  keyProperty="orderId" parameterType="Order" useGeneratedKeys="false">
         INSERT sale_order
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="orderId != null">order_id,</if>
@@ -78,6 +122,10 @@
             <if test="createBy != null">#{createBy,jdbcType=VARCHAR},</if>
             <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
         </trim>
+        <!-- 返回生成的订单ID -->
+        <selectKey keyColumn="order_id" keyProperty="orderId" resultType="java.lang.Long" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
     </insert>
 
     <update id="updateOrder" parameterType="Order">
@@ -104,6 +152,5 @@
         </set>
         WHERE   order_id = #{orderId,jdbcType=BIGINT}
     </update>
-
 </mapper>
 

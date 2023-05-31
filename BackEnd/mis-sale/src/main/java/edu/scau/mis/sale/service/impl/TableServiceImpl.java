@@ -1,5 +1,6 @@
 package edu.scau.mis.sale.service.impl;
 
+import edu.scau.mis.sale.domain.Dish;
 import edu.scau.mis.sale.domain.Table;
 import edu.scau.mis.sale.mapper.TableMapper;
 import edu.scau.mis.sale.service.ITableService;
@@ -17,7 +18,12 @@ public class TableServiceImpl implements ITableService {
     public Table selectTableById(Long tableId) {
         return tableMapper.selectTableById(tableId);
     }
-
+    public List<Table> selectTableByName(String tableName) {
+        return tableMapper.selectTableByName(tableName);
+    }
+    public List<Table> selectTableByStatus(String status) {
+        return tableMapper.selectTableByStatus(status);
+    }
     @Override
     public List<Table> selectAllTable(){
         return tableMapper.selectAllTable();

@@ -20,8 +20,8 @@ public interface IOrderService {
 
     int deleteOrderById(Long orderId);
 
-    int insertOrder(Order order);
+    Long insertOrder(Order order);
 
     int updateOrder(Order order);
-
+    List<Order> selectOrderByTableIdAndStatus(Long tableId, String status);
 }

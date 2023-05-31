@@ -150,7 +150,7 @@
 import { listRoleByPage, getRole, addRole, updateRole, deleteRole } from '@/api/systemM/role'
 export default {
   name: 'Role',
-  data () {
+  data() {
     return {
       // 遮罩层
       loading: false,
@@ -186,12 +186,12 @@ export default {
       }
     }
   },
-  created () {
+  created() {
     this.getList()
   },
   methods: {
     /** 查询Role数据列表 */
-    getList () {
+    getList() {
       this.loading = true
       listRoleByPage(this.queryParams).then((response) => {
         this.roleList = response.data.list
@@ -200,23 +200,23 @@ export default {
       })
     },
     /** 处理分页 */
-    handleSizeChange (val) {
+    handleSizeChange(val) {
       this.queryParams.pageSize = val
       this.getList()
     },
-    handleCurrentChange (val) {
+    handleCurrentChange(val) {
       this.queryParams.pageNum = val
       this.getList()
     },
 
     /** 数据编辑对话框取消按钮 */
-    cancel () {
+    cancel() {
       this.open = false
       this.resetForm()
     },
 
     /** 数据编辑表单清空 */
-    resetForm () {
+    resetForm() {
       this.form = {
         roleId: null,
         roleName: null
@@ -224,33 +224,33 @@ export default {
     },
 
     /** 重置分页 */
-    resetQueryParams () {
+    resetQueryParams() {
       this.queryParams.pageNum = 1
       this.queryParams.pageSize = 5
     },
 
     /** 数据筛选搜索按钮 */
-    handleQuery () {
+    handleQuery() {
       this.resetQueryParams()
       this.getList()
       this.$message.success('查询成功')
     },
 
     /** 数据筛选重置按钮 */
-    resetQuery () {
+    resetQuery() {
       this.$refs.queryForm.resetFields()
       this.getList()
     },
 
     /** 新增按钮操作 */
-    handleAdd () {
+    handleAdd() {
       this.resetForm()
       this.open = true
       this.title = '添加Role'
     },
 
     /** 修改按钮操作 */
-    handleUpdate (row) {
+    handleUpdate(row) {
       this.resetForm()
       getRole(row.roleId).then((response) => {
         this.form = response.data
@@ -260,7 +260,7 @@ export default {
     },
 
     /** 数据提交按钮 */
-    submitForm: function () {
+    submitForm: function() {
       this.$refs['form'].validate((valid) => {
         if (valid) {
           if (this.form.roleId !== null) {
@@ -283,11 +283,11 @@ export default {
     },
 
     /** 删除按钮操作 */
-    handleDelete (row) {
+    handleDelete(row) {
       this.$confirm('是否确认删除ID为"' + row.roleId + '"的数据项?', '警告', {
         confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning'
       })
-        .then(function () {
+        .then(function() {
           return deleteRole(row.roleId)
         })
         .then(() => {

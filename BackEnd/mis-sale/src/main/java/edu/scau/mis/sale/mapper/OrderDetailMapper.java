@@ -29,6 +29,8 @@ public interface OrderDetailMapper {
     int insertOrderDetail(OrderDetail orderDetail);
 
     int updateOrderDetail(OrderDetail orderDetail);
+    List<OrderDetail> selectOrderDetailByDishId(Long dishId);
+    List<OrderDetail> selectOrderDetailByOrderId(Long orderId);
 
 }
 

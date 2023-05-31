@@ -22,8 +22,17 @@
               placeholder="请输入菜品名"
               clearable
               size="small"
-              @keyup.enter.native="handleQuery"
+              @keyup.enter.native="handleQueryByDishName"
             />
+          </el-form-item>
+          <el-form-item>
+            <el-button
+              type="primary"
+              icon="el-icon-search"
+              size="mini"
+              @click="handleQueryByDishName"
+            >搜索
+            </el-button>
           </el-form-item>
           <el-form-item
             label="菜品类型"
@@ -34,19 +43,20 @@
               placeholder="请输入菜品类型"
               clearable
               size="small"
-              @keyup.enter.native="handleQuery"
+              @keyup.enter.native="handleQueryByCategory"
             />
           </el-form-item>
-  
-          <!-- 数据筛选操作按钮 -->
           <el-form-item>
             <el-button
               type="primary"
               icon="el-icon-search"
               size="mini"
-              @click="handleQuery"
+              @click="handleQueryByCategory"
             >搜索
             </el-button>
+          </el-form-item>
+          <!-- 数据筛选操作按钮 -->
+          <el-form-item>
             <el-button
               icon="el-icon-refresh"
               size="mini"
@@ -55,7 +65,6 @@
             </el-button>
           </el-form-item>
         </el-form>
-  
         <!-- 数据操作按钮 -->
         <el-row :gutter="20">
           <el-col :span="3">
@@ -73,22 +82,19 @@
         <el-table
           v-loading="loading"
           :data="dishList"
+          height="500"
           style="width: 100%;margin-bottom: 20px;"
-          row-key="dishId"
-          default-expand-all
-          :tree-props="{children: 'children'}"
         >
-          <!-- 数据表格列 -->
-          <el-table-column
-            label="菜品名称"
-            align="center"
-            prop="dishName"
-          />
           <el-table-column
             label="菜品ID"
             align="center"
             prop="dishId"
             width="100px"
+          />
+          <el-table-column
+            label="菜品名称"
+            align="center"
+            prop="dishName"
           />
           <el-table-column
             label="菜品价格"
@@ -132,20 +138,9 @@
             </template>
           </el-table-column>
         </el-table>
-        <!-- 数据分页加载 -->
-        <!-- <el-pagination
-          :current-page="pageNum"
-          :page-sizes="[10, 20, 50, 100]"
-          :page-size="pageSize"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="total"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          @pagination="getList"
-        /> -->
       </el-col>
     </el-row>
-    <!-- 添加修改menu对话框 -->
+    <!-- 添加修改dish对话框 -->
     <el-dialog
       :title="title"
       :visible.sync="open"
@@ -202,7 +197,6 @@
             placeholder="请输入菜品描述"
           />
         </el-form-item>
-  
       </el-form>
       <!-- 数据提交操作按钮 -->
       <div
@@ -221,7 +215,7 @@
   
   <script>
   /** 导入axios Api */
-  import { listAllDish, listDishByCategory, listDishById, updateDish, addDish } from '@/api/resourceM/dish'
+  import { listAllDish, listDishByCategory, listDishByDishName, listDishById, updateDish, addDish, deleteDish } from '@/api/resourceM/dish'
   export default {
     name: 'Dish',
     data() {
@@ -230,8 +224,6 @@
         loading: false,
         // Dish表格数据
         dishList: [],
-        // 对话框目录+菜单树
-        categoryTree: [],
         // 弹出层标题
         title: '',
         // 是否显示弹出层
@@ -250,6 +242,9 @@
           ],
           category: [
             { required: true, message: '菜单类别不能为空', trigger: 'blur' }
+          ],
+          price: [
+            { required: true, message: '菜单价格不能为空', trigger: 'blur' }
           ]
         },
         categoryOptions: [{
@@ -275,7 +270,7 @@
       this.getList()
     },
     methods: {
-      /** 查询菜单数据列表 */
+      /** 查询所有dish */
       getList() {
         this.loading = true
         listAllDish().then((response) => {
@@ -295,6 +290,14 @@
       listDishById(query) {
         this.loading = true
         listDishById(query).then((response) => {
+          this.dishList = response.data
+          this.loading = false
+        })
+      },
+      /** 根据dishName条件查询 */
+      listDishByDishName(query) {
+        this.loading = true
+        listDishByDishName(query).then((response) => {
           this.dishList = response.data
           this.loading = false
         })
@@ -321,12 +324,6 @@
         this.resetForm()
       },
   
-      /** 数据筛选参数重置按钮 */
-      resetQueryParams() {
-        this.queryParams.pageNum = 1
-        this.queryParams.pageSize = 5
-      },
-  
       /** 数据编辑表单清空 */
       resetForm() {
         this.form = {
@@ -340,10 +337,14 @@
       },
   
       /** 数据筛选搜索按钮 */
-      handleQuery() {
-        this.resetQueryParams()
+      handleQueryByCategory() {
         this.listDishByCategory(this.queryParams.category)
-        this.$message.success('查询成功' + this.queryParams.category)
+        this.$message.success('查询成功')
+      },
+      /** 数据筛选搜索按钮 */
+      handleQueryByDishName() {
+        this.listDishByDishName(this.queryParams.dishName)
+        this.$message.success('查询成功')
       },
   
       /** 数据筛选重置按钮 */
@@ -365,23 +366,19 @@
       /** 修改按钮操作 */
       handleUpdate(row) {
         this.resetForm()
-        listAllDish().then((response) => {
+        listDishById(row.dishId).then((response) => {
           this.form = response.data
-          console.log(this.form)
           this.open = true
-          this.title = '修改Menu'
+          this.title = '修改Dish'
         })
       },
   
-    //   /** 数据提交按钮 */
+      /** 数据提交按钮 */
       submitForm: function() {
         this.$refs['form'].validate((valid) => {
-          
           if (valid) {
             if (this.form.dishId === null) {
-              
-              addDish(this.form).then((response) => {
-                window.alert(this.form.category)
+              addDish(this.form).then((response) => {            
                 this.$message.success(response.msg)
                 this.open = false
                 this.title = ''
@@ -399,24 +396,24 @@
         })
       },
   
-    //   /** 删除按钮操作 */
-    //   handleDelete(row) {
-    //     this.$confirm(
-    //       '是否确认删除名称为"' + row.dishName + '"的数据项?', '警告', {
-    //       confirmButtonText: '确定',
-    //       cancelButtonText: '取消',
-    //       type: 'warning'
-    //     })
-    //       .then(function() {
-    //         return deleteMenu(row.dishId)
-    //       })
-    //       .then(() => {
-    //         this.getList()
-    //         this.$message.success('删除成功')
-    //       })
-    //       .catch(() => { })
-    //   },
-    //   /** 选中上级菜单 */
+      /** 删除按钮操作 */
+      handleDelete(row) {
+        this.$confirm(
+          '是否确认删除名称为"' + row.dishName + '"的数据项?', '警告', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        })
+          .then(function() {
+            return deleteDish(row.dishId)
+          })
+          .then(() => {
+            this.getList()
+            this.$message.success('删除成功')
+          })
+          .catch(() => { })
+      },
+      /** 选中上级菜单 */
       handleNodeClick(data) {
         this.form.category = data.category
       }

@@ -38,6 +38,18 @@ public class DishController {
         return AjaxResult.success(dishService.selectDishById(dishId));
     }
 
+    @ApiOperation("根据名称查询菜品")
+    @GetMapping("/dishName/{dishName}")
+    public AjaxResult getByDishName(@PathVariable("dishName") String dishName) {
+        return AjaxResult.success(dishService.selectDishByName(dishName));
+    }
+
+    @ApiOperation("根据类别查询菜品")
+    @GetMapping("/category/{category}")
+    public AjaxResult getByCategory(@PathVariable("category") String category) {
+        return AjaxResult.success(dishService.selectDishByCategory(category));
+    }
+
     @ApiOperation("新增菜品")
     @PostMapping
     public AjaxResult add(@RequestBody Dish dish) {
@@ -56,9 +68,21 @@ public class DishController {
         return AjaxResult.success(dishService.deleteDishById(dishId));
     }
 
-    @ApiOperation("根据类别查询菜品")
-    @GetMapping("/category/{category}")
-    public AjaxResult getByCategory(@PathVariable("category") String category) {
-        return AjaxResult.success(dishService.selectDishByCategory(category));
+    @ApiOperation("根据订单ID查询菜品描述")
+    @GetMapping("/selectDescriptionByOrderId/{orderId}")
+    public AjaxResult getByOrderId(@PathVariable("orderId") Long orderId) {
+        return AjaxResult.success(dishService.selectDescriptionByOrderId(orderId));
+    }
+
+    @ApiOperation("根据菜品ID查询菜品描述")
+    @GetMapping("/selectDescriptionByDishId/{dishId}")
+    public AjaxResult getByDishId(@PathVariable("dishId") Long dishId) {
+        return AjaxResult.success(dishService.selectDescriptionByDishId(dishId));
+    }
+
+    @ApiOperation("查询所有类别")
+    @GetMapping("/listAllCategory")
+    public AjaxResult listAllCategory() {
+        return AjaxResult.success(dishService.selectAllCategory());
     }
 }

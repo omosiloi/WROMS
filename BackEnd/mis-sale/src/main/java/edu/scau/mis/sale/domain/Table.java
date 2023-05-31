@@ -22,7 +22,7 @@ public class Table implements Serializable {
     /**
      * 容量
      */
-    private int tableCapacity;
+    private Long tableCapacity;
     /**
      * 状态
      */
@@ -61,11 +61,11 @@ public class Table implements Serializable {
         this.tableName = tableName;
     }
 
-    public int getTableCapacity() {
+    public Long getTableCapacity() {
         return tableCapacity;
     }
 
-    public void setTableCapacity(int tableCapacity) {
+    public void setTableCapacity(Long tableCapacity) {
         this.tableCapacity = tableCapacity;
     }
 

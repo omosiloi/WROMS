@@ -55,4 +55,16 @@ public class OrderDetailController {
     public AjaxResult deleteById(@PathVariable Long orderDetailId) {
         return AjaxResult.success(orderDetailService.deleteOrderDetailById(orderDetailId));
     }
+
+    @ApiOperation("根据菜品ID查询订单明细")
+    @GetMapping("/selectOrderDetailByDishId/{dishId}")
+    public AjaxResult getByDishId(@PathVariable("dishId") Long dishId) {
+        return AjaxResult.success(orderDetailService.selectOrderDetailByDishId(dishId));
+    }
+
+    @ApiOperation("根据订单ID查询订单明细")
+    @GetMapping("/selectOrderDetailByOrderId/{orderId}")
+    public AjaxResult getByOrderId(@PathVariable("orderId") Long orderId) {
+        return AjaxResult.success(orderDetailService.selectOrderDetailByOrderId(orderId));
+    }
 }

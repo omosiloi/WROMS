@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">name: {{ name }}</div>
+    <div class="dashboard-text">欢迎{{ name }}使用本系统，努力开始今天的工作吧！</div>
     <div class="dashboard-text">roles: {{ roles }}</div>
     <div class="dashboard-text">authorities: {{ authorities }}</div>
   </div>
