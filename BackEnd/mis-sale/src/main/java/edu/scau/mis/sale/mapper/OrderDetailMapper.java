@@ -19,7 +19,8 @@ public interface OrderDetailMapper {
 //
 //    List<Long> selectOrderDetailIdListByOrderId(Long orderId);
     List<OrderDetail> selectOrderDetailList(OrderDetail orderDetail);
-
+    List<OrderDetail> getSales();
+    List<OrderDetail> getMonthlySales();
     List<OrderDetail> selectAllOrderDetail();
 
     int deleteOrderDetailById(Long orderDetailId);

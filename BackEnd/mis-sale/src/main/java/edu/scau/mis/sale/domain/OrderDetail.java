@@ -9,7 +9,43 @@ import java.io.Serializable;
  */
 public class OrderDetail implements Serializable {
     private static final long serialVersionUID = -31891901036999507L;
+    private Integer month;
+    private BigDecimal monthlySales;
 
+    public Integer getMonth() {
+        return month;
+    }
+
+    public void setMonth(Integer month) {
+        this.month = month;
+    }
+
+    public BigDecimal getMonthlySales() {
+        return monthlySales;
+    }
+
+    public void setMonthlySales(BigDecimal monthlySales) {
+        this.monthlySales = monthlySales;
+    }
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getValue() {
+        return value;
+    }
+
+    public void setValue(Integer value) {
+        this.value = value;
+    }
+
+    private Integer value;
     private Dish dish;
     /**
      * 订单明细ID

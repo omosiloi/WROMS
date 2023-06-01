@@ -16,7 +16,11 @@ import java.util.List;
 public class OrderDetailController {
     @Autowired
     private IOrderDetailService orderDetailService;
-
+    @ApiOperation("查询所有订单")
+    @GetMapping("/getSales")
+    public AjaxResult getSales(){
+        return AjaxResult.success(orderDetailService.getSales());
+    }
     @ApiOperation("分页查询订单明细")
     @GetMapping("/page")
     public AjaxResult page(@RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize, OrderDetail orderDetail) {
@@ -30,6 +34,12 @@ public class OrderDetailController {
     @GetMapping("/listAll")
     public AjaxResult listAll(){
         return AjaxResult.success(orderDetailService.selectAllOrderDetail());
+    }
+
+    @ApiOperation("查询所有订单明细")
+    @GetMapping("/getMonthlySales")
+    public AjaxResult getMonthlySales(){
+        return AjaxResult.success(orderDetailService.getMonthlySales());
     }
 
     @ApiOperation("根据ID查询订单明细")

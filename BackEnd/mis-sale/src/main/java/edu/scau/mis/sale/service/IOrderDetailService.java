@@ -15,6 +15,10 @@ public interface IOrderDetailService {
 
     OrderDetail selectOrderDetailById(Long orderDetailId);
 
+    List<OrderDetail> getSales();
+
+    List<OrderDetail> getMonthlySales();
+
     List<OrderDetail> selectOrderDetailList(OrderDetail orderDetail);
 
     List<OrderDetail> selectAllOrderDetail();

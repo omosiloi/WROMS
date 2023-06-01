@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 // 登录校验
-export function login (data) {
+export function login(data) {
   return request({
     url: '/auth/login',
     method: 'post',
@@ -9,7 +9,7 @@ export function login (data) {
 }
 
 // 获取登录用户信息
-export function getInfo () {
+export function getInfo() {
   return request({
     url: '/auth/getInfo',
     method: 'get'
@@ -17,7 +17,7 @@ export function getInfo () {
 }
 
 // 退出登录
-export function logout () {
+export function logout() {
   return request({
     url: '/auth/logout',
     method: 'get'

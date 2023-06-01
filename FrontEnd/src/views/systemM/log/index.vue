@@ -387,7 +387,7 @@ export default {
         requestUrl: null,
         resultCode: null,
         requestBy: null,
-        requestTime: null,
+        requestTime: null
       },
       // 数据编辑表单
       form: {},
@@ -422,16 +422,16 @@ export default {
         ],
         requestTime: [
           { required: true, message: '请求时间不能为空', trigger: 'blur' }
-        ],
+        ]
       }
     }
   },
-  created () {
+  created() {
     this.getList()
   },
   methods: {
     /** 查询Log数据列表 */
-    getList () {
+    getList() {
       this.loading = true
       listLogByPage(this.queryParams).then((response) => {
         this.logList = response.data.list
@@ -440,23 +440,23 @@ export default {
       })
     },
     /** 处理分页 */
-    handleSizeChange (val) {
+    handleSizeChange(val) {
       this.queryParams.pageSize = val
       this.getList()
     },
-    handleCurrentChange (val) {
+    handleCurrentChange(val) {
       this.queryParams.pageNum = val
       this.getList()
     },
 
     /** 数据编辑对话框取消按钮 */
-    cancel () {
+    cancel() {
       this.open = false
       this.resetForm()
     },
 
     /** 数据编辑表单清空 */
-    resetForm () {
+    resetForm() {
       this.form = {
         logId: null,
         title: null,
@@ -467,38 +467,38 @@ export default {
         requestUrl: null,
         resultCode: null,
         requestBy: null,
-        requestTime: null,
+        requestTime: null
       }
     },
 
     /** 重置分页 */
-    resetQueryParams () {
+    resetQueryParams() {
       this.queryParams.pageNum = 1
       this.queryParams.pageSize = 5
     },
 
     /** 数据筛选搜索按钮 */
-    handleQuery () {
+    handleQuery() {
       this.resetQueryParams()
       this.getList()
       this.$message.success('查询成功')
     },
 
     /** 数据筛选重置按钮 */
-    resetQuery () {
+    resetQuery() {
       this.$refs.queryForm.resetFields()
       this.getList()
     },
 
     /** 新增按钮操作 */
-    handleAdd () {
+    handleAdd() {
       this.resetForm()
       this.open = true
       this.title = '添加Log'
     },
 
     /** 修改按钮操作 */
-    handleUpdate (row) {
+    handleUpdate(row) {
       this.resetForm()
       getLog(row.logId).then((response) => {
         this.form = response.data
@@ -508,7 +508,7 @@ export default {
     },
 
     /** 数据提交按钮 */
-    submitForm: function () {
+    submitForm: function() {
       this.$refs['form'].validate((valid) => {
         if (valid) {
           if (this.form.logId !== null) {
@@ -531,11 +531,11 @@ export default {
     },
 
     /** 删除按钮操作 */
-    handleDelete (row) {
+    handleDelete(row) {
       this.$confirm('是否确认删除ID为"' + row.logId + '"的数据项?', '警告', {
         confirmButtonText: '确定', cancelButtonText: '取消', type: 'warning'
       })
-        .then(function () {
+        .then(function() {
           return deleteLog(row.logId)
         })
         .then(() => {

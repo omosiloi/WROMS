@@ -24,4 +24,5 @@ public interface IOrderService {
 
     int updateOrder(Order order);
     List<Order> selectOrderByTableIdAndStatus(Long tableId, String status);
+
 }

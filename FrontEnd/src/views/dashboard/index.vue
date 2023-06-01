@@ -22,25 +22,16 @@
 </template>
 
 <script>
+import { getSales, getMonthlySales } from '@/api/dashBoard'
 export default {
   name: 'Dashboard',
   data() {
     return {
-    }
-  },
-  created() {},
-  mounted() {
-    this.initPieChart()
-    this.initBarChart()
-  },
-  methods: {
-    /** 初始化饼状图 */
-    initPieChart() {
-      var pieChart = this.$echarts.init(this.$refs.left)
-      var option = {
+      pieChartData: [],
+      pieChartOption: {
         title: {
-          text: '热卖商品分析报表',
-          subtext: '按产品类型统计',
+          text: '2023年热卖菜品分析报表',
+          subtext: '根据2023年订单统计',
           left: 'center'
         },
         tooltip: {
@@ -55,14 +46,7 @@ export default {
             name: '占所有产品的',
             type: 'pie',
             radius: '50%',
-            data: [
-              { value: 48, name: '钢笔' },
-              { value: 60, name: '铅笔盒' },
-              { value: 73, name: '日记本' },
-              { value: 58, name: '毛巾' },
-              { value: 48, name: '香波' },
-              { value: 30, name: '拖鞋' }
-            ],
+            data: [],
             emphasis: {
               itemStyle: {
                 shadowBlur: 10,
@@ -72,15 +56,11 @@ export default {
             }
           }
         ]
-      }
-      option && pieChart.setOption(option)
-    },
-    /** 初始化柱状图 */
-    initBarChart() {
-      var pieChart = this.$echarts.init(this.$refs.right)
-      var option = {
+      },
+      barChartData: [],
+      barChartOption: {
         title: {
-          text: '月度销售额统计报表',
+          text: '2023年月度销售金额统计报表',
           subtext: '按月份统计',
           left: 'center'
         },
@@ -93,7 +73,7 @@ export default {
         },
         series: [
           {
-            data: [120, 200, 150, 80, 70, 110, 150, 180, 90, 100, 140, 160],
+            data: [],
             type: 'bar',
             showBackground: true,
             backgroundStyle: {
@@ -102,7 +82,31 @@ export default {
           }
         ]
       }
-      option && pieChart.setOption(option)
+    }
+  },
+  created() {},
+  mounted() {
+    this.initPieChart()
+    this.initBarChart()
+  },
+  methods: {
+    /** 初始化饼状图 */
+    initPieChart() {
+      getSales().then((response) => {
+        this.pieChartData = response.data
+        this.pieChartOption.series[0].data = this.pieChartData
+        var pieChart = this.$echarts.init(this.$refs.left)
+        this.pieChartOption && pieChart.setOption(this.pieChartOption)
+      })
+    },
+    /** 初始化柱状图 */
+    initBarChart() {
+      getMonthlySales().then((response) => {
+        this.barChartData = response.data.map(obj => obj.monthlySales)
+        this.barChartOption.series[0].data = this.barChartData
+        var barChart = this.$echarts.init(this.$refs.right)
+        this.barChartOption && barChart.setOption(this.barChartOption)
+      }) 
     }
   }
 }

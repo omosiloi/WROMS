@@ -182,7 +182,7 @@
                 this.orderDetailList[i].totalPrice = this.orderDetailList[i].dish.price * this.orderDetailList[i].quantity
               }
               this.orderTableLoading = false
-              this.$message.success('查询成功')
+              this.$message.success('正在对' + this.table.tableName + '的顾客办理付款业务！')
               this.resetQueryParams()
             } else {
               this.$message.error('未查到订单号为' + this.queryParams.orderId + '订单')
@@ -222,12 +222,12 @@
             this.resetTable()
             this.order = response.data[0]
             this.orderDetailList = response.data[0].orderDetail
-            this.table.tableId = response.data.tableId
+            this.table = response.data[0].table
             for (let i = 0; i < this.orderDetailList.length; i++) {
               this.orderDetailList[i].totalPrice = this.orderDetailList[i].dish.price * this.orderDetailList[i].quantity
             }
             this.orderTableLoading = false
-            this.$message.success('查询成功')
+            this.$message.success('正在对' + this.table.tableName + '的顾客办理付款业务！')
         })
         }
       },

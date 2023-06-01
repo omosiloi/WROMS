@@ -22,7 +22,14 @@ public class OrderDetailServiceImpl implements IOrderDetailService {
     public List<OrderDetail> selectAllOrderDetail(){
         return orderDetailMapper.selectAllOrderDetail();
     }
-
+    @Override
+    public List<OrderDetail> getSales(){
+        return orderDetailMapper.getSales();
+    }
+    @Override
+    public List<OrderDetail> getMonthlySales(){
+        return orderDetailMapper.getMonthlySales();
+    }
     @Override
     public List<OrderDetail> selectOrderDetailList(OrderDetail orderDetail) {
         return orderDetailMapper.selectOrderDetailList(orderDetail);
