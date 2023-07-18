@@ -205,6 +205,7 @@
           this.table.tableId = this.order.tableId
           this.table.tableName = this.order.table.tableName
           this.order.status = 'closed'
+          this.table.status = '待清理'
           console.log(this.order)
           updateOrder(this.order).then(() => { 
             this.$message.success('已成功支付订单号为' + this.order.orderId + '的订单！')

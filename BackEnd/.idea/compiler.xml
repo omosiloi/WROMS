@@ -6,11 +6,6 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="mis-web" />
-        <module name="mis-core" />
-        <module name="mis-gen" />
-        <module name="mis-sale" />
-        <module name="mis-system" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8">

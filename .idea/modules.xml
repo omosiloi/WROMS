@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/BackEnd/BackEnd.iml" filepath="$PROJECT_DIR$/BackEnd/BackEnd.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/WROMS.iml" filepath="$PROJECT_DIR$/.idea/WROMS.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BackEnd/mis-core/mis-core.iml" filepath="$PROJECT_DIR$/BackEnd/mis-core/mis-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BackEnd/mis-gen/mis-gen.iml" filepath="$PROJECT_DIR$/BackEnd/mis-gen/mis-gen.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BackEnd/mis-sale/mis-sale.iml" filepath="$PROJECT_DIR$/BackEnd/mis-sale/mis-sale.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BackEnd/mis-system/mis-system.iml" filepath="$PROJECT_DIR$/BackEnd/mis-system/mis-system.iml" />
+      <module fileurl="file://$PROJECT_DIR$/BackEnd/mis-web/mis-web.iml" filepath="$PROJECT_DIR$/BackEnd/mis-web/mis-web.iml" />
+    </modules>
+  </component>
+</project>

@@ -167,7 +167,11 @@
           label="菜单类别"
           prop="category"
         >
-          <el-select
+          <el-input
+            v-model="form.category"
+            placeholder="请输入菜品类别"
+          />
+          <!-- <el-select
             v-model="form.category"
             placeholder="请选择"
           >
@@ -177,7 +181,7 @@
               :label="item.label"
               :value="item.category"
             />
-          </el-select>
+          </el-select> -->
         </el-form-item>
         <el-form-item
           label="菜品价格"

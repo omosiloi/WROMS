@@ -37,7 +37,8 @@ public class SpringSecurityConfig {
     /* 不受控API_PATH */
     private static final String[] SECURITY_IGNORE_API_PATH = {
             //  通过这条代码可以绕过访问控制，直接访问所有地址
-            "/**"
+            "/auth/login","/auth/getInfo","/auth/getRouters"
+            //"/**"
     };
     /* 用户服务 */
     @Autowired

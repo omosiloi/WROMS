@@ -21,6 +21,11 @@ public class OrderDetailController {
     public AjaxResult getSales(){
         return AjaxResult.success(orderDetailService.getSales());
     }
+    @ApiOperation("查询所有订单明细")
+    @GetMapping("/getMonthlySales")
+    public AjaxResult getMonthlySales(){
+        return AjaxResult.success(orderDetailService.getMonthlySales());
+    }
     @ApiOperation("分页查询订单明细")
     @GetMapping("/page")
     public AjaxResult page(@RequestParam("pageNum") Integer pageNum, @RequestParam("pageSize") Integer pageSize, OrderDetail orderDetail) {
@@ -36,11 +41,7 @@ public class OrderDetailController {
         return AjaxResult.success(orderDetailService.selectAllOrderDetail());
     }
 
-    @ApiOperation("查询所有订单明细")
-    @GetMapping("/getMonthlySales")
-    public AjaxResult getMonthlySales(){
-        return AjaxResult.success(orderDetailService.getMonthlySales());
-    }
+
 
     @ApiOperation("根据ID查询订单明细")
     @GetMapping("/{orderDetailId}")

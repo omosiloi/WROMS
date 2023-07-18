@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="mis-web" />
+        <module name="mis-core" />
+        <module name="mis-gen" />
+        <module name="mis-sale" />
+        <module name="mis-system" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="BackEnd" target="1.8" />
+      <module name="mis-core" target="1.8" />
+      <module name="mis-gen" target="1.8" />
+      <module name="mis-sale" target="1.8" />
+      <module name="mis-system" target="1.8" />
+      <module name="mis-web" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

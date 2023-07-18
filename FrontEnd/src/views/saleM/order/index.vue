@@ -357,12 +357,14 @@ import { listAllDish, listAllTable, listDishByCategory, listDishByDishName, list
               for (let i = 0; i < this.shopDishList.length; i++) {
                 this.order.totalPrice = this.order.totalPrice + this.shopDishList[i].totalPrice
               }
+              this.order.totalPrice = this.order.totalPrice + 5
               for (let i = 0; i < this.shopDishList.length; i++) {
                   this.orderDetail.quantity = this.shopDishList[i].quantity
                   this.orderDetail.dishId = this.shopDishList[i].dishId
                   this.orderDetailList.push(this.orderDetail)
                   this.resetOrderDetail()
               }
+              console.log(this.table)
               addOrder(this.order).then((response) => {  
                 this.order.orderId = response.data
                 for (let i = 0; i < this.orderDetailList.length; i++) {

@@ -11,6 +11,8 @@ public class OrderDetail implements Serializable {
     private static final long serialVersionUID = -31891901036999507L;
     private Integer month;
     private BigDecimal monthlySales;
+    private String name;
+    private Integer value;
 
     public Integer getMonth() {
         return month;
@@ -27,7 +29,7 @@ public class OrderDetail implements Serializable {
     public void setMonthlySales(BigDecimal monthlySales) {
         this.monthlySales = monthlySales;
     }
-    private String name;
+
 
     public String getName() {
         return name;
@@ -45,7 +47,7 @@ public class OrderDetail implements Serializable {
         this.value = value;
     }
 
-    private Integer value;
+
     private Dish dish;
     /**
      * 订单明细ID
