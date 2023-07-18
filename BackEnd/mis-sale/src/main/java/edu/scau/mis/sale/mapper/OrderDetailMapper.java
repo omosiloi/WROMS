@@ -5,9 +5,6 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
-/**
- * OrderDetailMapper
- */
 @Mapper
 public interface OrderDetailMapper {
 

@@ -18,57 +18,36 @@ public class LoginUser implements UserDetails {
         this.authorities = authorities;
     }
 
-    /**
-     * 权限集合
-     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
     }
 
-    /**
-     * 密码
-     */
     @Override
     public String getPassword() {
         return user.getPassword();
     }
 
-    /**
-     * 用户名
-     */
     @Override
     public String getUsername() {
         return user.getUserName();
     }
 
-    /**
-     * 是否过期
-     */
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
-    /**
-     * 是否锁定
-     */
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
-    /**
-     * 密码是否过期
-     */
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
-    /**
-     * 是否可用
-     */
     @Override
     public boolean isEnabled() {
         return true;

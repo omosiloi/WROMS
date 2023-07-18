@@ -7,6 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class MisApplication {
     public static void main(String[] args) {
         SpringApplication.run(MisApplication.class, args);
-        System.out.println("MIS开发平台启动成功");
+        System.out.println("WROMS后台启动成功");
     }
 }

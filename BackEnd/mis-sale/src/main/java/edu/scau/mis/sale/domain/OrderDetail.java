@@ -49,37 +49,13 @@ public class OrderDetail implements Serializable {
 
 
     private Dish dish;
-    /**
-     * 订单明细ID
-     */
     private Long orderDetailId;
-    /**
-     * 订单ID
-     */
     private Long orderId;
-    /**
-     * 菜品ID
-     */
     private Long dishId;
-    /**
-     * 数量
-     */
     private int quantity;
-    /**
-     * 创建者
-     */
     private String createBy;
-    /**
-     * 创建时间
-     */
     private Date createTime;
-    /**
-     * 更新者
-     */
     private String updateBy;
-    /**
-     * 更新时间
-     */
     private Date updateTime;
 
     public Long getOrderDetailId() {

@@ -4,12 +4,6 @@ import edu.scau.mis.sale.domain.Dish;
 
 import java.util.List;
 
-/**
- * 菜品表(Dish)表服务接口
- *
- * @author CJW
- * @since 2023-03-04 00:36:27
- */
 public interface IDishService {
 
     Dish selectDishById(Long dishId);

@@ -10,41 +10,22 @@ import java.io.Serializable;
 public class Dish implements Serializable {
     private static final long serialVersionUID = -41891901036999507L;
 
-    /**
-     * 菜品ID
-     */
     private Long dishId;
-    /**
-     * 菜品名称
-     */
+
     private String dishName;
-    /**
-     * 价格
-     */
+
     private BigDecimal price;
-    /**
-     * 描述
-     */
+
     private String description;
-    /**
-     * 类别
-     */
+
     private String category;
-    /**
-     * 创建者
-     */
+
     private String createBy;
-    /**
-     * 创建时间
-     */
+
     private Date createTime;
-    /**
-     * 更新者
-     */
+
     private String updateBy;
-    /**
-     * 更新时间
-     */
+
     private Date updateTime;
 
     public Long getDishId() {

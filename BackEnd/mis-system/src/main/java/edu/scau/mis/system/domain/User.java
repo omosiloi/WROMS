@@ -4,12 +4,6 @@ import java.util.Date;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * 用户表(User)实体类
- *
- * @author makejava
- * @since 2023-03-04 00:36:06
- */
 public class User implements Serializable {
     private static final long serialVersionUID = 360581513606335949L;
     /**

@@ -5,10 +5,6 @@ import edu.scau.mis.sale.domain.Table;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
-
-/**
- * TableMapper
- */
 @Mapper
 public interface TableMapper {
 

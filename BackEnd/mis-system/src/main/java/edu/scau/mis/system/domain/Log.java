@@ -3,12 +3,6 @@ package edu.scau.mis.system.domain;
 import java.util.Date;
 import java.io.Serializable;
 
-/**
- * 操作日志(Log)实体类
- *
- * @author makejava
- * @since 2023-03-03 20:46:23
- */
 public class Log implements Serializable {
     private static final long serialVersionUID = 372521365834904103L;
     /**

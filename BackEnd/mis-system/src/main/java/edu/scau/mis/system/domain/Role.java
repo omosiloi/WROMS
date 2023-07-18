@@ -3,12 +3,6 @@ package edu.scau.mis.system.domain;
 import java.util.Date;
 import java.io.Serializable;
 
-/**
- * 角色信息表(Role)实体类
- *
- * @author makejava
- * @since 2023-03-04 00:36:27
- */
 public class Role implements Serializable {
     private static final long serialVersionUID = -41891901036990506L;
     /**

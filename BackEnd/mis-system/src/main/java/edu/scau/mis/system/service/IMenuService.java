@@ -6,12 +6,7 @@ import edu.scau.mis.system.vo.RouterVo;
 import java.util.List;
 import java.util.Set;
 
-/**
- * 菜单权限表(Menu)表服务接口
- *
- * @author CJW
- * @since 2023-03-04 00:36:36
- */
+
 public interface IMenuService {
 
     List<Menu> selectMenuList(Menu menu);

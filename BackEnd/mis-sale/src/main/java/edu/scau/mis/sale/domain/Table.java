@@ -10,38 +10,20 @@ import java.io.Serializable;
 public class Table implements Serializable {
     private static final long serialVersionUID = -11891901036999507L;
 
-    /**
-     * 餐桌ID
-     */
     private Long tableId;
 
-    /**
-     * 餐桌名称
-     */
     private String tableName;
-    /**
-     * 容量
-     */
+
     private Long tableCapacity;
-    /**
-     * 状态
-     */
+
     private String status;
-    /**
-     * 创建者
-     */
+
     private String createBy;
-    /**
-     * 创建时间
-     */
+
     private Date createTime;
-    /**
-     * 更新者
-     */
+
     private String updateBy;
-    /**
-     * 更新时间
-     */
+
     private Date updateTime;
 
 

@@ -5,9 +5,6 @@ import java.util.Date;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * 订单表(Order)实体类
- */
 public class Order implements Serializable {
     private static final long serialVersionUID = -21891901036999507L;
 
@@ -19,47 +16,25 @@ public class Order implements Serializable {
         this.orderDetail = orderDetail;
     }
 
-    /**
-     * 关联实体
-     */
     private List<OrderDetail> orderDetail;
     private Table table;
 
-    /**
-     * 订单ID
-     */
     private Long orderId;
-    /**
-     * 餐桌ID
-     */
+
     private Long tableId;
-    /**
-     * 下单时间
-     */
+
     private Date orderTime;
-    /**
-     * 总价格
-     */
+
     private BigDecimal totalPrice;
-    /**
-     * 状态
-     */
+
     private String status;
-    /**
-     * 创建者
-     */
+
     private String createBy;
-    /**
-     * 创建时间
-     */
+
     private Date createTime;
-    /**
-     * 更新者
-     */
+
     private String updateBy;
-    /**
-     * 更新时间
-     */
+
     private Date updateTime;
 
     public Long getOrderId() {

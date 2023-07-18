@@ -4,12 +4,6 @@ import edu.scau.mis.sale.domain.Order;
 
 import java.util.List;
 
-/**
- * 订单表(Order)表服务接口
- *
- * @author CJW
- * @since 2023-03-04 00:36:27
- */
 public interface IOrderService {
 
     Order selectOrderById(Long orderId);
